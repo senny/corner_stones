@@ -68,7 +68,7 @@ form.submit # submit the form using the 'Save' button
 form.submit(:button => 'Save Article') # submit the form using the 'Save Article' button
 
 form.process(:fill_in => {'Title' => 'Some Article', 'Author' => 'C. J.'},
-             :button => 'Save Article) # fill out + submit
+             :button => 'Save Article') # fill out + submit
 ```
 
 ```ruby
