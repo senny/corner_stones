@@ -24,7 +24,12 @@ module CornerStones
 
       def assert_has_no_errors
         unless errors == []
-          raise FormHasErrorsError
+          error_message = 'expected the form to have no errors but the following were present:'
+          errors.each do |error|
+            error_message << "\n\t- #{error}"
+          end
+          error_message << "\n"
+          raise FormHasErrorsError, error_message
         end
       end
 
