@@ -29,6 +29,8 @@ module CornerStones
             select(value, :from => name)
           elsif autocomplete_fields.include?(name)
             autocomplete(value, :in => name)
+          elsif file_fields.include?(name)
+            attach_file(name, value)
           else
             fill_in(name, :with => value)
           end
@@ -51,6 +53,10 @@ module CornerStones
 
     def autocomplete_fields
       @options.fetch(:autocomplete_fields) { [] }
+    end
+
+    def file_fields
+      @options.fetch(:file_fields) { [] }
     end
   end
 
