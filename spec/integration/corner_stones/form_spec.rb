@@ -21,22 +21,27 @@ describe CornerStones::Form do
       <textarea name="body" id="body">
       </textarea>
 
+      <label for="file">File</label>
+      <input name="file" id="file" type="file">
+
       <input type="submit" name="button" value="Save">
       <input type="submit" name="button" value="Save Article">
 
     </form>
   HTML
 
-  subject { CornerStones::Form.new('.article-form', :select_fields => ['Author']) }
+  subject { CornerStones::Form.new('.article-form', :select_fields => ['Author'], :file_fields => ['File']) }
 
   it 'allows you to fill in the form' do
     subject.fill_in_with('Title' => 'Domain Driven Design',
                          'Author' => 'Eric Evans',
-                         'Body' => '...')
+                         'Body' => '...',
+                         'File' => 'spec/files/hadoken.png')
 
     find('#title').value.must_equal 'Domain Driven Design'
     find('#author').value.must_equal '2'
     find('#body').value.must_equal '...'
+    find('#file').value.must_equal 'spec/files/hadoken.png'
   end
 
   it 'allows you to submit the form' do
@@ -56,12 +61,13 @@ describe CornerStones::Form do
     subject.process(:fill_in => {
                       'Title' => 'Domain Driven Design',
                       'Author' => 'Eric Evans',
-                      'Body' => 'Some Content...'})
+                      'Body' => 'Some Content...',
+                      'File' => 'spec/files/hadoken.png'})
 
     current_path.must_equal '/articles'
     page.driver.request.post?.must_equal true
 
-    page.driver.request.params.must_equal({"title" => "Domain Driven Design", "author" => "2", "body" => "Some Content...", 'button' => 'Save'})
+    page.driver.request.params.must_equal({"title" => "Domain Driven Design", "author" => "2", "body" => "Some Content...", "file" => "hadoken.png", 'button' => 'Save'})
   end
 
   it 'allows you to process (fill_in_with + submit) the form using an alternate button' do
