@@ -124,6 +124,11 @@ describe CornerStones::Table do
                 <td>Eric Evans</td>
                 <td class="delete-action"><a href="/delete/domain_driven_design">X</a></td>
               </tr>
+              <tr>
+                <td>3</td>
+                <td>Pro Git</td>
+                <td>Scott Chacon</td>
+              </tr>
             </tbody>
           </table>
     HTML
@@ -134,7 +139,9 @@ describe CornerStones::Table do
 
       it 'it includes the "Delete-Link" object in the data' do
         subject.rows.each do |row|
-          row['Delete-Link'].must_be_kind_of(Capybara::Node::Element)
+          unless row['Delete-Link'].nil?
+            row['Delete-Link'].must_be_kind_of(Capybara::Node::Element)
+          end
         end
       end
 
