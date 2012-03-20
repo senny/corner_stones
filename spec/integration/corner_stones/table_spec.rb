@@ -45,31 +45,40 @@ describe CornerStones::Table do
 
   describe "data" do
     it 'is read into an array of hashes ({header} => {data})' do
-      subject.rows.must_equal [{'ID' => '1',
-                                 'Title' => 'Clean Code',
-                                 'Author' => 'Robert C. Martin'},
-                               {'ID' => '2',
-                                 'Title' => 'Domain Driven Design',
-                                 'Author' => 'Eric Evans'}]
+      expected_data = [{'ID' => '1', 'Title' => 'Clean Code', 'Author' => 'Robert C. Martin'},
+                       { 'ID' => '2', 'Title' => 'Domain Driven Design', 'Author' => 'Eric Evans'}]
+
+      subject.rows.map {|r|
+        r.each do |k, v|
+          r.delete(k) unless expected_data.first.has_key?(k)
+        end
+      }.must_equal(expected_data)
     end
 
     it 'a row can be accessed with a single key' do
-      subject.row('Title' => 'Domain Driven Design').must_equal({ 'ID' => '2',
-                                                                  'Title' => 'Domain Driven Design',
-                                                                  'Author' => 'Eric Evans' })
+      expected_data = { 'ID' => '2', 'Title' => 'Domain Driven Design', 'Author' => 'Eric Evans' }
+      actual = subject.row('Title' => 'Domain Driven Design')
+
+      actual.each {|k, v| actual.delete(k) unless expected_data.has_key?(k)}
+      actual.must_equal(expected_data)
     end
 
     it 'a row can be accessed with multiple keys' do
-      subject.row('ID' => '1',
-                  'Author' => 'Robert C. Martin').must_equal({'ID' => '1',
-                                                               'Title' => 'Clean Code',
-                                                               'Author' => 'Robert C. Martin'})
+      expected_data = {'ID' => '1', 'Title' => 'Clean Code', 'Author' => 'Robert C. Martin'}
+
+      actual = subject.row('ID' => '1', 'Author' => 'Robert C. Martin')
+      actual.each {|k, v| actual.delete(k) unless expected_data.has_key?(k)}
+      actual.must_equal(expected_data)
     end
 
     it 'It raises an Exception when no Row was found' do
       lambda do
         subject.row('ID' => '3')
       end.must_raise(CornerStones::Table::MissingRowError)
+    end
+
+    it 'extracts the Capybara-Element for the table row' do
+      subject.row('ID' => '1')['Row-Element'].path.must_equal('/html/body/table/tbody/tr[1]')
     end
   end
 
@@ -93,10 +102,15 @@ describe CornerStones::Table do
       subject { CornerStones::Table.new('.articles', :headers => ['Book', 'Author'], :data_selector => 'th,td') }
 
       it 'the option :data_selector can be used to widen the data to other elements' do
-        subject.rows.must_equal [{ 'Book' => 'Clean Code',
-                                   'Author' => 'Robert C. Martin'},
-                                 { 'Book' => 'Domain Driven Design',
-                                   'Author' => 'Eric Evans'}]
+        expected_data = [{ 'Book' => 'Clean Code',
+                           'Author' => 'Robert C. Martin'},
+                         { 'Book' => 'Domain Driven Design',
+                           'Author' => 'Eric Evans'}]
+        subject.rows.map {|r|
+          r.each do |k, v|
+            r.delete(k) unless expected_data.first.has_key?(k)
+          end
+        }.must_equal(expected_data)
       end
 
     end

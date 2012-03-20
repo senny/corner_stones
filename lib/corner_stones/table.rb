@@ -43,7 +43,9 @@ module CornerStones
 
       real_data = data[0...headers.size].map(&:text)
 
-      Hash[headers.zip(real_data)]
+      row_data = Hash[headers.zip(real_data)]
+      row_data['Row-Element'] = row
+      row_data
     end
   end
 
