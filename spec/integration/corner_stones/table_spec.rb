@@ -116,13 +116,13 @@ describe CornerStones::Table do
                 <td>1</td>
                 <td>Clean Code</td>
                 <td>Robert C. Martin</td>
-                <td class="delete-action"><a href="/delete/clean_code">X</a></td>
+                <td><a class="delete-action" href="/delete/clean_code">X</a></td>
               </tr>
               <tr>
                 <td>2</td>
                 <td>Domain Driven Design</td>
                 <td>Eric Evans</td>
-                <td class="delete-action"><a href="/delete/domain_driven_design">X</a></td>
+                <td><a class="delete-action" href="/delete/domain_driven_design">X</a></td>
               </tr>
               <tr>
                 <td>3</td>

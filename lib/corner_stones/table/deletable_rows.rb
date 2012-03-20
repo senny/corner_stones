@@ -7,7 +7,7 @@ module CornerStones
       end
 
       def attributes_for_row(row)
-        super.merge('Delete-Link' => row.first('.delete-action a'))
+        super.merge('Delete-Link' => row.first('td .delete-action'))
       end
 
     end
