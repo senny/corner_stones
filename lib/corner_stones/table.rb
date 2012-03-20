@@ -4,6 +4,9 @@ require 'corner_stones/table/deletable_rows'
 module CornerStones
 
   class Table
+
+    class MissingRowError < StandardError; end
+
     include Capybara::DSL
 
     def initialize(scope, options = {})
@@ -16,7 +19,7 @@ module CornerStones
       rows.detect { |row|
         identity = row.select { |key, value| options.has_key?(key) }
         identity == options
-      }
+      } or raise MissingRowError, "no row with '#{options.inspect}'\n\ngot:#{rows}"
     end
 
     def rows

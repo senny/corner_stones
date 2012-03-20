@@ -66,8 +66,10 @@ describe CornerStones::Table do
                                                                'Author' => 'Robert C. Martin'})
     end
 
-    it 'nil is returned when no matching row was found' do
-      subject.row('ID' => '3').must_equal(nil)
+    it 'It raises an Exception when no Row was found' do
+      lambda do
+        subject.row('ID' => '3')
+      end.must_raise(CornerStones::Table::MissingRowError)
     end
   end
 
