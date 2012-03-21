@@ -165,6 +165,12 @@ describe CornerStones::Table do
         subject.delete_row('Title' => 'Domain Driven Design')
         current_path.must_equal '/delete/domain_driven_design'
       end
+
+      it 'raises an error when a the target row can not be found' do
+        lambda do
+          subject.delete_row('ID' => '3')
+        end.must_raise(RuntimeError)
+      end
     end
 
     describe 'selectable rows' do
