@@ -24,24 +24,29 @@ describe CornerStones::Form do
       <label for="file">File</label>
       <input name="file" id="file" type="file">
 
+      <label for="check">Checkbox</label>
+      <input name="check" id="check" type="checkbox" value="1">
+
       <input type="submit" name="button" value="Save">
       <input type="submit" name="button" value="Save Article">
 
     </form>
   HTML
 
-  subject { CornerStones::Form.new('.article-form', :select_fields => ['Author'], :file_fields => ['File']) }
+  subject { CornerStones::Form.new('.article-form') }
 
   it 'allows you to fill in the form' do
     subject.fill_in_with('Title' => 'Domain Driven Design',
                          'Author' => 'Eric Evans',
                          'Body' => '...',
-                         'File' => 'spec/files/hadoken.png')
+                         'File' => 'spec/files/hadoken.png',
+                         'Checkbox' => true)
 
     find('#title').value.must_equal 'Domain Driven Design'
     find('#author').value.must_equal '2'
     find('#body').value.must_equal '...'
     find('#file').value.must_equal 'spec/files/hadoken.png'
+    find('#check').value.must_equal '1'
   end
 
   it 'allows you to submit the form' do
@@ -62,12 +67,13 @@ describe CornerStones::Form do
                       'Title' => 'Domain Driven Design',
                       'Author' => 'Eric Evans',
                       'Body' => 'Some Content...',
-                      'File' => 'spec/files/hadoken.png'})
+                      'File' => 'spec/files/hadoken.png',
+                      'Checkbox' => true})
 
     current_path.must_equal '/articles'
     page.driver.request.post?.must_equal true
 
-    page.driver.request.params.must_equal({"title" => "Domain Driven Design", "author" => "2", "body" => "Some Content...", "file" => "hadoken.png", 'button' => 'Save'})
+    page.driver.request.params.must_equal({"title" => "Domain Driven Design", "author" => "2", "body" => "Some Content...", "file" => "hadoken.png", 'check' => '1', 'button' => 'Save'})
   end
 
   it 'allows you to process (fill_in_with + submit) the form using an alternate button' do
@@ -77,6 +83,18 @@ describe CornerStones::Form do
                     :button => 'Save Article')
 
     page.driver.request.params['button'].must_equal('Save Article')
+  end
+
+  describe 'form with an unknown field type' do
+    given_the_html <<-HTML
+      <form action="/articles" method="post" class="form-with-errors article-form">
+        <label for="unknown">Unknown</label>
+        <a id="unknown">Link</a>
+      </form>
+HTML
+    it 'raises an error when filling the form' do
+      assert_raises(CornerStones::Form::UnknownFieldError) { subject.fill_in_with('Unknown' => '123456') }
+    end
   end
 
   describe 'mixins' do

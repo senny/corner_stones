@@ -1,7 +1,11 @@
+require 'corner_stones/form/field_selector'
+
 require 'corner_stones/form/with_inline_errors'
 
 module CornerStones
   class Form
+
+    class UnknownFieldError < RuntimeError; end
 
     include Capybara::DSL
 
@@ -25,41 +29,14 @@ module CornerStones
     def fill_in_with(attributes)
       within @scope do
         attributes.each do |name, value|
-          if select_fields.include?(name)
-            select(value, :from => name)
-          elsif autocomplete_fields.include?(name)
-            autocomplete(value, :in => name)
-          elsif file_fields.include?(name)
-            attach_file(name, value)
-          else
-            fill_in(name, :with => value)
-          end
+          field = FieldSelector.find(name, :autocomplete_fields => autocomplete_fields)
+          field.set value
         end
       end
     end
 
-    def autocomplete(value, options)
-      autocomplete_id = find_field(options[:in])[:id]
-      fill_in(options[:in], :with => value)
-      page.execute_script %Q{ $('##{autocomplete_id}').trigger("focus") }
-      page.execute_script %Q{ $('##{autocomplete_id}').trigger("keydown") }
-      wait_until do
-        result = page.evaluate_script %Q{ $('.ui-menu-item a:contains("#{value}")').size() }
-        result > 0
-      end
-      page.execute_script %Q{ $('.ui-menu-item a:contains("#{value}")').trigger("mouseenter").trigger("click"); }
-    end
-
-    def select_fields
-      @options.fetch(:select_fields) { [] }
-    end
-
     def autocomplete_fields
       @options.fetch(:autocomplete_fields) { [] }
-    end
-
-    def file_fields
-      @options.fetch(:file_fields) { [] }
     end
   end
 
