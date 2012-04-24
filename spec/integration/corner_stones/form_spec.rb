@@ -85,6 +85,20 @@ describe CornerStones::Form do
     page.driver.request.params['button'].must_equal('Save Article')
   end
 
+  it 'allows you the retrieve the current values of the form fields' do
+    subject.fill_in_with('Title' => 'Domain Driven Design',
+                         'Author' => 'Eric Evans',
+                         'Body' => '...',
+                         'File' => 'spec/files/hadoken.png',
+                         'Checkbox' => true)
+
+    subject.attributes.must_equal('Title' => 'Domain Driven Design',
+                                  'Author' => '2',
+                                  'Body' => '...',
+                                  'File' => 'spec/files/hadoken.png',
+                                  'Checkbox' => '1')
+  end
+
   describe 'form with an unknown field type' do
     given_the_html <<-HTML
       <form action="/articles" method="post" class="form-with-errors article-form">

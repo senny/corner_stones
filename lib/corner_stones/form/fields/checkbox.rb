@@ -5,7 +5,11 @@ module CornerStones
     module Fields
       class Checkbox < Base
         def self.handles?(name)
-          !first(:xpath, XPath::HTML.checkbox(name)).nil?
+          !find_field(name).nil?
+        end
+
+        def self.find_field(name)
+          first(:xpath, XPath::HTML.checkbox(name))
         end
 
         def set(value)
@@ -14,6 +18,10 @@ module CornerStones
           else
             uncheck @locator
           end
+        end
+
+        def get
+          self.class.find_field(@locator).value
         end
       end
     end

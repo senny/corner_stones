@@ -5,11 +5,19 @@ module CornerStones
     module Fields
       class FileField < Base
         def self.handles?(name)
-          !first(:xpath, XPath::HTML.file_field(name)).nil?
+          !find_field(name).nil?
+        end
+
+        def self.find_field(name)
+          first(:xpath, XPath::HTML.file_field(name))
         end
 
         def set(value)
           attach_file @locator, value
+        end
+
+        def get
+          self.class.find_field(@locator).value
         end
       end
     end
