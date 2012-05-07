@@ -1,5 +1,6 @@
 require 'corner_stones/table/selectable_rows'
 require 'corner_stones/table/deletable_rows'
+require 'corner_stones/table/whitespace_filter'
 
 module CornerStones
 
