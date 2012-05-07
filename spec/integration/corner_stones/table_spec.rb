@@ -214,5 +214,37 @@ describe CornerStones::Table do
       end
     end
 
+    describe 'whitespace filter' do
+      given_the_html <<-HTML
+        <table class="articles">
+          <thead>
+            <tr>
+              <th>Author</th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr data-selected-url="/articles/clean_code">
+                <td>Robert C. Martin</td>
+              </tr>
+              <tr data-selected-url="/articles/domain_driven_design">
+                <td>
+
+                  Eric Evans
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    HTML
+
+      before do
+        subject.extend(CornerStones::Table::WhitespaceFilter)
+      end
+
+      it 'strips whitespace from cell content' do
+        subject.rows.map { |r| r['Author']}.must_equal ["Robert C. Martin", "Eric Evans"]
+      end
+
+    end
   end
 end
