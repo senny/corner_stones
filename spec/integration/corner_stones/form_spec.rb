@@ -10,6 +10,9 @@ describe CornerStones::Form do
       <label for="title">Title</label>
       <input type="text" name="title" id="title">
 
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password">
+
       <label for="author">Author</label>
       <select name="author" id="author">
         <option value="1">Robert C. Martin</option>
@@ -37,12 +40,14 @@ describe CornerStones::Form do
 
   it 'allows you to fill in the form' do
     subject.fill_in_with('Title' => 'Domain Driven Design',
+                         'Password' => 'secret',
                          'Author' => 'Eric Evans',
                          'Body' => '...',
                          'File' => 'spec/files/hadoken.png',
                          'Checkbox' => true)
 
     find('#title').value.must_equal 'Domain Driven Design'
+    find('#password').value.must_equal 'secret'
     find('#author').value.must_equal '2'
     find('#body').value.must_equal '...'
     find('#file').value.must_equal 'spec/files/hadoken.png'
@@ -65,6 +70,7 @@ describe CornerStones::Form do
   it 'allows you to process (fill_in_with + submit) the form' do
     subject.process(:fill_in => {
                       'Title' => 'Domain Driven Design',
+                      'Password' => 'SeCrEt',
                       'Author' => 'Eric Evans',
                       'Body' => 'Some Content...',
                       'File' => 'spec/files/hadoken.png',
@@ -73,7 +79,7 @@ describe CornerStones::Form do
     current_path.must_equal '/articles'
     page.driver.request.post?.must_equal true
 
-    page.driver.request.params.must_equal({"title" => "Domain Driven Design", "author" => "2", "body" => "Some Content...", "file" => "hadoken.png", 'check' => '1', 'button' => 'Save'})
+    page.driver.request.params.must_equal({"title" => "Domain Driven Design", 'password' => 'SeCrEt', "author" => "2", "body" => "Some Content...", "file" => "hadoken.png", 'check' => '1', 'button' => 'Save'})
   end
 
   it 'allows you to process (fill_in_with + submit) the form using an alternate button' do
@@ -87,12 +93,14 @@ describe CornerStones::Form do
 
   it 'allows you the retrieve the current values of the form fields' do
     subject.fill_in_with('Title' => 'Domain Driven Design',
+                         'Password' => 'secret',
                          'Author' => 'Eric Evans',
                          'Body' => '...',
                          'File' => 'spec/files/hadoken.png',
                          'Checkbox' => true)
 
     subject.attributes.must_equal('Title' => 'Domain Driven Design',
+                                  'Password' => 'secret',
                                   'Author' => '2',
                                   'Body' => '...',
                                   'File' => 'spec/files/hadoken.png',
