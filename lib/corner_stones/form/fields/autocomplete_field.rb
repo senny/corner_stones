@@ -10,6 +10,10 @@ module CornerStones
           end
         end
 
+        def self.handles_element?(element)
+          super(element) && element[:class] =~ /ui-autocomplete-input/
+        end
+
         def set(value)
           autocomplete_id = @field[:id]
           super

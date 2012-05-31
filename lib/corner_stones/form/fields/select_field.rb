@@ -8,6 +8,10 @@ module CornerStones
           !find_field(name).nil?
         end
 
+        def self.handles_element?(element)
+          element.tag_name == 'select'
+        end
+
         def self.find_field(name)
           first(:xpath, XPath::HTML.select(name))
         end
