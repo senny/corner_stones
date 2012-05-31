@@ -11,7 +11,7 @@ module CornerStones
         end
 
         def set(value)
-          autocomplete_id = find_field(@locator)[:id]
+          autocomplete_id = @field[:id]
           super
           page.execute_script %Q{ $('##{autocomplete_id}').trigger("focus") }
           page.execute_script %Q{ $('##{autocomplete_id}').trigger("keydown") }

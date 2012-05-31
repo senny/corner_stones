@@ -13,15 +13,11 @@ module CornerStones
         end
 
         def set(value)
-          if [true, 'yes', 'ja', '1', 1].include?(value)
-            check @locator
-          else
-            uncheck @locator
-          end
+          @field.set [true, 'yes', 'ja', '1', 1].include?(value)
         end
 
         def get
-          self.class.find_field(@locator).value
+          @field.value
         end
       end
     end

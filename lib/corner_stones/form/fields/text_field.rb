@@ -13,11 +13,11 @@ module CornerStones
         end
 
         def set(value)
-          fill_in @locator, :with => value
+          @field.set value
         end
 
         def get
-          self.class.find_field(@locator).value
+          @field.value
         end
       end
     end

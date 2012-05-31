@@ -16,7 +16,7 @@ module CornerStones
                         FIELDS.detect {|selector| selector.handles?(name)}
                       end
         raise UnknownFieldError, "don't know how to fill the field #{name}" if field_class.nil?
-        field_class.new(name)
+        field_class.new(field_class.find_field(name))
       end
     end
   end

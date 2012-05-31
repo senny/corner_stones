@@ -13,11 +13,11 @@ module CornerStones
         end
 
         def set(value)
-          select value, :from => @locator
+          @field.find("option:contains('#{value}')").select_option
         end
 
         def get
-          self.class.find_field(@locator).value
+          @field.value
         end
       end
     end
