@@ -8,16 +8,20 @@ module CornerStones
           !find_field(name).nil?
         end
 
+        def self.handles_element?(element)
+          element.tag_name == 'select'
+        end
+
         def self.find_field(name)
           first(:xpath, XPath::HTML.select(name))
         end
 
         def set(value)
-          select value, :from => @locator
+          @field.find("option:contains('#{value}')").select_option
         end
 
         def get
-          self.class.find_field(@locator).value
+          @field.value
         end
       end
     end

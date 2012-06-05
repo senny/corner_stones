@@ -8,20 +8,20 @@ module CornerStones
           !find_field(name).nil?
         end
 
+        def self.handles_element?(element)
+          element.tag_name == 'input' && element[:type] == 'checkbox'
+        end
+
         def self.find_field(name)
           first(:xpath, XPath::HTML.checkbox(name))
         end
 
         def set(value)
-          if [true, 'yes', 'ja', '1', 1].include?(value)
-            check @locator
-          else
-            uncheck @locator
-          end
+          @field.set [true, 'yes', 'ja', '1', 1].include?(value)
         end
 
         def get
-          self.class.find_field(@locator).value
+          @field.value
         end
       end
     end

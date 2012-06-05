@@ -7,8 +7,8 @@ module CornerStones
           base.extend Capybara::DSL
         end
 
-        def initialize(locator)
-          @locator = locator
+        def initialize(field)
+          @field = field
         end
       end
     end

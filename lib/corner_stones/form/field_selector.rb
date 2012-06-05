@@ -16,7 +16,13 @@ module CornerStones
                         FIELDS.detect {|selector| selector.handles?(name)}
                       end
         raise UnknownFieldError, "don't know how to fill the field #{name}" if field_class.nil?
-        field_class.new(name)
+        field_class.new(field_class.find_field(name))
+      end
+
+      def self.find_by_element(element, options = {})
+        field_class = FIELDS.detect {|selector| selector.handles_element?(element)}
+        raise UnknownFieldError, "don't know how to fill the field #{element.inspect}" if field_class.nil?
+        field_class.new(element)
       end
     end
   end

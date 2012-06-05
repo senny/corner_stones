@@ -8,16 +8,20 @@ module CornerStones
           !find_field(name).nil?
         end
 
+        def self.handles_element?(element)
+          element.tag_name == 'input' && element[:type] == 'file'
+        end
+
         def self.find_field(name)
           first(:xpath, XPath::HTML.file_field(name))
         end
 
         def set(value)
-          attach_file @locator, value
+          @field.set value
         end
 
         def get
-          self.class.find_field(@locator).value
+          @field.value
         end
       end
     end
