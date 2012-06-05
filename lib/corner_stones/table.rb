@@ -68,7 +68,7 @@ module CornerStones
     end
 
     def value_for_cell(cell)
-      cell.text
+      cell.text unless cell.nil?
     end
   end
 

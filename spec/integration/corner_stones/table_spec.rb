@@ -116,6 +116,33 @@ describe CornerStones::Table do
     end
   end
 
+  describe 'colspans' do
+    given_the_html <<-HTML
+      <table class="articles">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td colspan="2">Clean Code</td>
+          </tr>
+        </tbody>
+      </table>
+HTML
+
+    it 'ignores empty cells' do
+      expected_data = [{'ID' => '1', 'Title' => 'Clean Code', 'Author' => nil}]
+      subject.rows.map {|r|
+        r.reject {|key, value| key == 'Row-Element'}
+      }.must_equal(expected_data)
+    end
+  end
+
   describe 'mixins' do
     describe 'deletable rows' do
       given_the_html <<-HTML
