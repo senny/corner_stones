@@ -50,7 +50,6 @@ module CornerStones
       data = row.all(@data_selector)
       cell = data[index]
       element = input_field(cell)
-      cell = data[index]
       if element
         field = Form::FieldSelector.find_by_element(element)
         row_data['Inputs'][header] = field
@@ -61,7 +60,7 @@ module CornerStones
     end
 
     def input_field(cell)
-      cell.first('input:not([type=\'hidden\']), textarea:not([type=\'hidden\']), select:not([type=\'hidden\'])')
+      cell.first('input:not([type=\'hidden\']), textarea:not([type=\'hidden\']), select:not([type=\'hidden\'])') unless cell.nil?
     end
     private :input_field
   end

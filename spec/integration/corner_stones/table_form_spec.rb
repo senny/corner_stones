@@ -113,6 +113,33 @@ HTML
     end.must_raise(CornerStones::TableForm::MissingInputError)
   end
 
+  describe 'colspans' do
+    given_the_html <<-HTML
+      <table class="movie-form">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Duration</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Indiana Jones</td>
+            <td colspan="2"><input type="text" name="duration1" id="duration1" value="210 minutes"></td>
+          </tr>
+        </tbody>
+      </table>
+HTML
+
+    it 'ignores empty cells' do
+      expected_data = [{'Title' => 'Indiana Jones', 'Duration' => '210 minutes', 'Time' => nil}]
+      subject.rows.map {|r|
+        r.reject {|key, value| ['Row-Element', 'Inputs'].include? key}
+      }.must_equal(expected_data)
+    end
+  end
+
   describe 'cucumber table support' do
     it 'enables you to fill in values from a cucumber table' do
       cucumber_table_hashes = [
