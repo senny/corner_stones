@@ -17,7 +17,7 @@ module CornerStones
           error = container.all('.help-inline').first
 
           { 'Field' => label && label.text,
-            'Value' => input && input.value,
+            'Value' => input && FieldSelector.find_by_element(input).get,
             'Error' => error && error.text }
         end
       end

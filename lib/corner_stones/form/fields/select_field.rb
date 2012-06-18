@@ -21,7 +21,7 @@ module CornerStones
         end
 
         def get
-          @field.value
+          @field.find("option[value='#{@field.value}']").text
         end
       end
     end
