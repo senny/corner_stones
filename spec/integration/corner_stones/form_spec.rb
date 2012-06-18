@@ -30,6 +30,9 @@ describe CornerStones::Form do
       <label for="check">Checkbox</label>
       <input name="check" id="check" type="checkbox" value="1">
 
+      <label for="check2">Checkbox2</label>
+      <input name="check2" id="check2" type="checkbox" value="1">
+
       <input type="submit" name="button" value="Save">
       <input type="submit" name="button" value="Save Article">
 
@@ -97,14 +100,16 @@ describe CornerStones::Form do
                          'Author' => 'Eric Evans',
                          'Body' => '...',
                          'File' => 'spec/files/hadoken.png',
-                         'Checkbox' => true)
+                         'Checkbox' => true,
+                         'Checkbox2' => false)
 
     subject.attributes.must_equal('Title' => 'Domain Driven Design',
                                   'Password' => 'secret',
                                   'Author' => 'Eric Evans',
                                   'Body' => '...',
                                   'File' => 'spec/files/hadoken.png',
-                                  'Checkbox' => '1')
+                                  'Checkbox' => '1',
+                                  'Checkbox2' => nil)
   end
 
   describe 'form with an unknown field type' do
