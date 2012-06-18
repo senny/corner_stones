@@ -101,7 +101,7 @@ describe CornerStones::Form do
 
     subject.attributes.must_equal('Title' => 'Domain Driven Design',
                                   'Password' => 'secret',
-                                  'Author' => '2',
+                                  'Author' => 'Eric Evans',
                                   'Body' => '...',
                                   'File' => 'spec/files/hadoken.png',
                                   'Checkbox' => '1')
@@ -156,7 +156,7 @@ HTML
         HTML
 
         it 'assembles the errors into a hash' do
-          subject.errors.must_equal([{"Field" => "Author", "Value" => "1", "Error" => "The author is not active"},
+          subject.errors.must_equal([{"Field" => "Author", "Value" => "Robert C. Martin", "Error" => "The author is not active"},
                                      {"Field" => "Body", "Value" => "...", "Error" => "invalid body"}])
         end
 

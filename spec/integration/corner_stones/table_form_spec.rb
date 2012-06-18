@@ -69,7 +69,7 @@ HTML
     subject.fill_in_row({'Title' => 'As it is in heaven'}, :with => {'Duration' => '112 min', 'Extras' => 'Special Scenes'})
 
     subject.row('Title' => 'As it is in heaven')['Duration'].must_equal '112 min'
-    subject.row('Title' => 'As it is in heaven')['Extras'].must_equal '2'
+    subject.row('Title' => 'As it is in heaven')['Extras'].must_equal 'Special Scenes'
   end
 
   it 'allows you to submit the form' do
@@ -91,13 +91,13 @@ HTML
 
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Action')['Actors'].must_equal 'Jonny Depp'
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Action')['Duration'].must_equal '120 min'
-    subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Action')['Extras'].must_equal '1'
+    subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Action')['Extras'].must_equal 'No extras'
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Actors'].must_equal 'David Hasselhoff'
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Duration'].must_equal nil
-    subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Extras'].must_equal '1'
+    subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Extras'].must_equal 'No extras'
     subject.row('Title' => 'As it is in heaven', 'Genre' => 'Comedy')['Actors'].must_equal 'Michael Moore'
     subject.row('Title' => 'As it is in heaven', 'Genre' => 'Comedy')['Duration'].must_equal '108 min'
-    subject.row('Title' => 'As it is in heaven', 'Genre' => 'Comedy')['Extras'].must_equal '2'
+    subject.row('Title' => 'As it is in heaven', 'Genre' => 'Comedy')['Extras'].must_equal 'Special Scenes'
   end
 
   it 'fills the first matching row if the row cannot be uniquely identified' do
@@ -149,7 +149,7 @@ HTML
       subject.fill_in_table(cucumber_table_hashes)
 
       subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Duration'].must_equal '140 min'
-      subject.row('Title' => 'As it is in heaven')['Extras'].must_equal '2'
+      subject.row('Title' => 'As it is in heaven')['Extras'].must_equal 'Special Scenes'
     end
   end
 
