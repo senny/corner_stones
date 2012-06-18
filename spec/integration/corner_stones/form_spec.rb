@@ -155,6 +155,15 @@ HTML
               <span class="help-inline">invalid body</span>
             </div>
 
+            <div class="error">
+              <input name="nominated" type="hidden" value="0">
+              <label for="nominated">
+                <input name="nominated" id="nominated" type="checkbox" checked="checked" value="3">
+                Nominated
+              </label>
+              <span class="help-inline">invalid nomination</span>
+            </div>
+
           <input type="submit" value="Save">
 
           </form>
@@ -162,7 +171,8 @@ HTML
 
         it 'assembles the errors into a hash' do
           subject.errors.must_equal([{"Field" => "Author", "Value" => "Robert C. Martin", "Error" => "The author is not active"},
-                                     {"Field" => "Body", "Value" => "...", "Error" => "invalid body"}])
+                                     {"Field" => "Body", "Value" => "...", "Error" => "invalid body"},
+                                     {'Field' => 'Nominated', 'Value' => '3', 'Error' => 'invalid nomination'}])
         end
 
         it '#assert_has_no_errors fails' do

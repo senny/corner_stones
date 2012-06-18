@@ -13,10 +13,10 @@ module CornerStones
       def errors
         all('.error').map do |container|
           label = container.all('label').first
-          input = container.all('input, textarea, select').first
+          input = container.all('input:not([type="hidden"]), textarea:not([type="hidden"]), select:not([type="hidden"])').first
           error = container.all('.help-inline').first
 
-          { 'Field' => label && label.text,
+          { 'Field' => label && label.text.strip,
             'Value' => input && FieldSelector.find_by_element(input).get,
             'Error' => error && error.text }
         end
