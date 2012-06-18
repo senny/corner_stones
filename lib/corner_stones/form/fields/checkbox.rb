@@ -21,7 +21,7 @@ module CornerStones
         end
 
         def get
-          @field.value
+          @field[:checked] ? @field[:value] : nil
         end
       end
     end

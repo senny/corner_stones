@@ -30,6 +30,9 @@ describe CornerStones::Form do
       <label for="check">Checkbox</label>
       <input name="check" id="check" type="checkbox" value="1">
 
+      <label for="check2">Checkbox2</label>
+      <input name="check2" id="check2" type="checkbox" value="1">
+
       <input type="submit" name="button" value="Save">
       <input type="submit" name="button" value="Save Article">
 
@@ -51,7 +54,7 @@ describe CornerStones::Form do
     find('#author').value.must_equal '2'
     find('#body').value.must_equal '...'
     find('#file').value.must_equal 'spec/files/hadoken.png'
-    find('#check').value.must_equal '1'
+    find('#check')[:checked].must_equal true
   end
 
   it 'allows you to submit the form' do
@@ -97,14 +100,16 @@ describe CornerStones::Form do
                          'Author' => 'Eric Evans',
                          'Body' => '...',
                          'File' => 'spec/files/hadoken.png',
-                         'Checkbox' => true)
+                         'Checkbox' => true,
+                         'Checkbox2' => false)
 
     subject.attributes.must_equal('Title' => 'Domain Driven Design',
                                   'Password' => 'secret',
                                   'Author' => 'Eric Evans',
                                   'Body' => '...',
                                   'File' => 'spec/files/hadoken.png',
-                                  'Checkbox' => '1')
+                                  'Checkbox' => '1',
+                                  'Checkbox2' => nil)
   end
 
   describe 'form with an unknown field type' do
@@ -150,6 +155,15 @@ HTML
               <span class="help-inline">invalid body</span>
             </div>
 
+            <div class="error">
+              <input name="nominated" type="hidden" value="0">
+              <label for="nominated">
+                <input name="nominated" id="nominated" type="checkbox" checked="checked" value="3">
+                Nominated
+              </label>
+              <span class="help-inline">invalid nomination</span>
+            </div>
+
           <input type="submit" value="Save">
 
           </form>
@@ -157,7 +171,8 @@ HTML
 
         it 'assembles the errors into a hash' do
           subject.errors.must_equal([{"Field" => "Author", "Value" => "Robert C. Martin", "Error" => "The author is not active"},
-                                     {"Field" => "Body", "Value" => "...", "Error" => "invalid body"}])
+                                     {"Field" => "Body", "Value" => "...", "Error" => "invalid body"},
+                                     {'Field' => 'Nominated', 'Value' => '3', 'Error' => 'invalid nomination'}])
         end
 
         it '#assert_has_no_errors fails' do
