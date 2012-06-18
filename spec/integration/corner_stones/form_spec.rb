@@ -51,7 +51,7 @@ describe CornerStones::Form do
     find('#author').value.must_equal '2'
     find('#body').value.must_equal '...'
     find('#file').value.must_equal 'spec/files/hadoken.png'
-    find('#check').value.must_equal '1'
+    find('#check')[:checked].must_equal true
   end
 
   it 'allows you to submit the form' do
