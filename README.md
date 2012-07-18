@@ -1,6 +1,7 @@
 # Corner Stones
 
 [![Build Status](https://secure.travis-ci.org/senny/corner_stones.png)](http://travis-ci.org/senny/corner_stones)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/senny/corner_stones)
 
 assists you in building PageObjects to make your acceptance tests more object oriented.
 
