@@ -17,7 +17,7 @@ describe CornerStones::FlashMessages do
 
   subject { CornerStones::FlashMessages.new}
 
-  it 'assebles present messages into a hash' do
+  it 'assembles present messages into a hash' do
     subject.messages.must_equal(:alert => [{:text => 'Article was not saved. Please correct the errors.'}],
                                 :notice => [{:text => 'Article saved.'}, {:text => 'Successfully logged in'}])
   end
