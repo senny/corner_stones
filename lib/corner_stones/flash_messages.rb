@@ -28,8 +28,15 @@ module CornerStones
 
     def assert_flash_is_present(type, message)
       unless message(type, message)
-        raise FlashMessageMissingError, "the flash message: '#{message}' with type: #{type} was not found"
+        raise FlashMessageMissingError, "the flash message: '#{message}' with type: #{type} was not found.\nThe following messages were present:\n#{formatted_present_messages}\n"
       end
     end
+
+    def formatted_present_messages
+      present_messages = messages.map { |type, messages|
+        messages.map {|message| "- #{type}: #{message[:text]}"}
+      }.flatten.join("\n")
+    end
+    private :formatted_present_messages
   end
 end

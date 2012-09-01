@@ -40,6 +40,20 @@ describe CornerStones::FlashMessages do
         subject.assert_flash_is_present(:notice, 'I am not displayed')
       end.must_raise(CornerStones::FlashMessages::FlashMessageMissingError)
     end
+
+    it 'the exception contains information about the present flash messages' do
+      begin
+        subject.assert_flash_is_present(:alert, 'this raises an error.')
+      rescue => e
+        e.message.must_equal <<-MESSAGE
+the flash message: 'this raises an error.' with type: alert was not found.
+The following messages were present:
+- notice: Article saved.
+- notice: Successfully logged in
+- alert: Article was not saved. Please correct the errors.
+MESSAGE
+      end
+    end
   end
 
   describe 'custom message types' do
