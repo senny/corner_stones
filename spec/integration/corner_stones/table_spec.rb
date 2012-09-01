@@ -6,7 +6,8 @@ require 'corner_stones/table/selectable_rows'
 
 describe CornerStones::Table do
 
-  given_the_html <<-HTML
+  stub_capybara_response
+  let(:html) { <<-HTML
     <table class="articles">
       <thead>
         <tr>
@@ -29,6 +30,7 @@ describe CornerStones::Table do
         </tbody>
         </table
   HTML
+  }
 
   subject { CornerStones::Table.new('.articles') }
 
@@ -84,7 +86,7 @@ describe CornerStones::Table do
 
   describe 'custom tables' do
     describe 'inline headers' do
-      given_the_html <<-HTML
+      let(:html) { <<-HTML
         <table class="articles">
           <tbody>
             <tr>
@@ -98,6 +100,7 @@ describe CornerStones::Table do
           </tbody>
        </table>
       HTML
+      }
 
       subject { CornerStones::Table.new('.articles', :headers => ['Book', 'Author'], :data_selector => 'th,td') }
 
@@ -117,7 +120,7 @@ describe CornerStones::Table do
   end
 
   describe 'colspans' do
-    given_the_html <<-HTML
+    let(:html) { <<-HTML
       <table class="articles">
         <thead>
           <tr>
@@ -134,6 +137,7 @@ describe CornerStones::Table do
         </tbody>
       </table>
 HTML
+    }
 
     it 'ignores empty cells' do
       expected_data = [{'ID' => '1', 'Title' => 'Clean Code', 'Author' => nil}]
@@ -145,7 +149,7 @@ HTML
 
   describe 'mixins' do
     describe 'deletable rows' do
-      given_the_html <<-HTML
+      let(:html) {<<-HTML
         <table class="articles">
           <thead>
             <tr>
@@ -175,7 +179,7 @@ HTML
             </tbody>
           </table>
     HTML
-
+      }
       before do
         subject.extend(CornerStones::Table::DeletableRows)
       end
@@ -201,7 +205,7 @@ HTML
     end
 
     describe 'selectable rows' do
-      given_the_html <<-HTML
+      let(:html) { <<-HTML
         <table class="articles">
           <thead>
             <tr>
@@ -224,6 +228,7 @@ HTML
             </tbody>
           </table>
     HTML
+      }
 
       before do
         subject.extend(CornerStones::Table::SelectableRows)
@@ -242,7 +247,7 @@ HTML
     end
 
     describe 'whitespace filter' do
-      given_the_html <<-HTML
+      let(:html) { <<-HTML
         <table class="articles">
           <thead>
             <tr>
@@ -263,7 +268,7 @@ HTML
             </tbody>
           </table>
     HTML
-
+      }
       before do
         subject.extend(CornerStones::Table::WhitespaceFilter)
       end

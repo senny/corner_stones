@@ -5,13 +5,15 @@ require 'corner_stones/tabs/active_tracking'
 
 describe CornerStones::Tabs do
 
-  given_the_html <<-HTML
+  stub_capybara_response
+  let(:html) {<<-HTML
       <ul class="main-tabs-nav">
         <li class="active"><a href='/main'>Main</a></li>
         <li><a href='/details'>Details</a></li>
         <li><a href='/more_stuff'>More Stuff</a></li>
       </ul>
   HTML
+  }
 
   subject { CornerStones::Tabs.new('.main-tabs-nav') }
 

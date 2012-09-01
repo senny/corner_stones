@@ -3,7 +3,10 @@ require 'integration/spec_helper'
 require 'corner_stones/flash_messages'
 
 describe CornerStones::FlashMessages do
-  given_the_html <<-HTML
+
+  stub_capybara_response
+
+  let(:html) { <<-HTML
     <div class="alert">
       <p>Article was not saved. Please correct the errors.</p>
     </div>
@@ -14,6 +17,7 @@ describe CornerStones::FlashMessages do
       <p>Successfully logged in</p>
     </div>
   HTML
+  }
 
   subject { CornerStones::FlashMessages.new}
 
@@ -57,7 +61,7 @@ MESSAGE
   end
 
   describe 'custom message types' do
-    given_the_html <<-HTML
+    let(:html) { <<-HTML
       <div class="alert-error">
         <p>Article was not saved. Please correct the errors.</p>
       </div>
@@ -68,6 +72,7 @@ MESSAGE
         <p>Successfully logged in</p>
       </div>
     HTML
+    }
 
     subject { CornerStones::FlashMessages.new(:message_types => [:'alert-info', :'alert-error', :'alert-warning'])}
 

@@ -3,7 +3,9 @@ require 'integration/spec_helper'
 require 'corner_stones/table_form'
 
 describe CornerStones::TableForm do
-  given_the_html <<-HTML
+
+  stub_capybara_response
+  let(:html) {<<-HTML
 <form action="/movies" method="post" class="movie-form">
   <table class="movies">
     <thead>
@@ -58,6 +60,7 @@ describe CornerStones::TableForm do
   <input type="submit" name="button" value="Save movies">
 </form>
 HTML
+  }
 
   subject { CornerStones::TableForm.new('.movie-form') }
 
@@ -114,7 +117,7 @@ HTML
   end
 
   describe 'colspans' do
-    given_the_html <<-HTML
+    let(:html) {<<-HTML
       <table class="movie-form">
         <thead>
           <tr>
@@ -131,6 +134,7 @@ HTML
         </tbody>
       </table>
 HTML
+    }
 
     it 'ignores empty cells' do
       expected_data = [{'Title' => 'Indiana Jones', 'Duration' => '210 minutes', 'Time' => nil}]

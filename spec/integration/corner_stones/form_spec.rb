@@ -5,7 +5,9 @@ require 'corner_stones/form/with_inline_errors'
 
 describe CornerStones::Form do
 
-  given_the_html <<-HTML
+  stub_capybara_response
+
+  let(:html) {<<-HTML
     <form action="/articles" method="post" class="article-form">
       <label for="title">Title</label>
       <input type="text" name="title" id="title">
@@ -38,6 +40,7 @@ describe CornerStones::Form do
 
     </form>
   HTML
+  }
 
   subject { CornerStones::Form.new('.article-form') }
 
@@ -113,12 +116,14 @@ describe CornerStones::Form do
   end
 
   describe 'form with an unknown field type' do
-    given_the_html <<-HTML
+    let(:html) {<<-HTML
       <form action="/articles" method="post" class="form-with-errors article-form">
         <label for="unknown">Unknown</label>
         <a id="unknown">Link</a>
       </form>
 HTML
+    }
+
     it 'raises an error when filling the form' do
       assert_raises(CornerStones::Form::UnknownFieldError) { subject.fill_in_with('Unknown' => '123456') }
     end
@@ -132,7 +137,7 @@ HTML
       end
 
       describe 'with errors' do
-        given_the_html <<-HTML
+        let(:html) {<<-HTML
           <form action="/articles" method="post" class="form-with-errors article-form">
             <div>
               <label for="title">Title</label>
@@ -168,6 +173,7 @@ HTML
 
           </form>
         HTML
+        }
 
         it 'assembles the errors into a hash' do
           subject.errors.must_equal([{"Field" => "Author", "Value" => "Robert C. Martin", "Error" => "The author is not active"},
@@ -193,7 +199,7 @@ HTML
       end
 
       describe 'without errors' do
-        given_the_html <<-HTML
+        let(:html) {<<-HTML
           <form action="/articles" method="post" class="form-without-errors article-form">
             <label for="title">Title</label>
             <input type="text" name="title" id="title">
@@ -201,15 +207,17 @@ HTML
             <input type="submit" value="Save">
           <form>
         HTML
+        }
+
+        it '#assert_has_no_errors passes' do
+          subject.assert_has_no_errors
+        end
+
+        it 'allows you to submit the form' do
+          subject.submit
+        end
       end
 
-      it '#assert_has_no_errors passes' do
-        subject.assert_has_no_errors
-      end
-
-      it 'allows you to submit the form' do
-        subject.submit
-      end
     end
   end
 end
