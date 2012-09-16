@@ -18,7 +18,7 @@ module CornerStones
 
     def row(options)
       rows.detect { |row|
-        identity = row.select { |key, value| options.has_key?(key) }
+        identity = row.attributes.select { |key, value| options.has_key?(key) }
         identity == options
       } or raise MissingRowError, "no row with '#{options.inspect}'\n\ngot:#{rows}"
     end
@@ -26,7 +26,7 @@ module CornerStones
     def rows
       within @scope do
         all('tbody tr').map do |row|
-          attributes_for_row(row)
+          row = Row.new(row, attributes_for_row(row))
         end
       end
     end
@@ -44,7 +44,6 @@ module CornerStones
       headers.each.with_index.with_object(row_data) do |(header, index), row_data|
         augment_row_with_cell(row_data, row, index, header)
       end
-      row_data['Row-Element'] = row
       row_data
     end
 
@@ -56,6 +55,12 @@ module CornerStones
 
     def value_for_cell(cell)
       cell.text unless cell.nil?
+    end
+
+    Row = Struct.new(:node, :attributes) do
+      def [](key)
+        attributes[key]
+      end
     end
   end
 

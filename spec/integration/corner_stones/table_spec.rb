@@ -51,26 +51,20 @@ describe CornerStones::Table do
                        { 'ID' => '2', 'Title' => 'Domain Driven Design', 'Author' => 'Eric Evans'}]
 
       subject.rows.map {|r|
-        r.each do |k, v|
-          r.delete(k) unless expected_data.first.has_key?(k)
+        r.attributes.reject do |key, _value|
+          !expected_data.first.has_key?(key)
         end
       }.must_equal(expected_data)
     end
 
     it 'a row can be accessed with a single key' do
-      expected_data = { 'ID' => '2', 'Title' => 'Domain Driven Design', 'Author' => 'Eric Evans' }
       actual = subject.row('Title' => 'Domain Driven Design')
-
-      actual.each {|k, v| actual.delete(k) unless expected_data.has_key?(k)}
-      actual.must_equal(expected_data)
+      actual['Author'].must_equal('Eric Evans')
     end
 
     it 'a row can be accessed with multiple keys' do
-      expected_data = {'ID' => '1', 'Title' => 'Clean Code', 'Author' => 'Robert C. Martin'}
-
       actual = subject.row('ID' => '1', 'Author' => 'Robert C. Martin')
-      actual.each {|k, v| actual.delete(k) unless expected_data.has_key?(k)}
-      actual.must_equal(expected_data)
+      actual['Title'].must_equal('Clean Code')
     end
 
     it 'It raises an Exception when no Row was found' do
@@ -80,7 +74,7 @@ describe CornerStones::Table do
     end
 
     it 'extracts the Capybara-Element for the table row' do
-      subject.row('ID' => '1')['Row-Element'].path.must_equal('/html/body/table/tbody/tr[1]')
+      subject.row('ID' => '1').node.path.must_equal('/html/body/table/tbody/tr[1]')
     end
   end
 
@@ -110,8 +104,8 @@ describe CornerStones::Table do
                          { 'Book' => 'Domain Driven Design',
                            'Author' => 'Eric Evans'}]
         subject.rows.map {|r|
-          r.each do |k, v|
-            r.delete(k) unless expected_data.first.has_key?(k)
+          r.attributes.reject do |key, _value|
+            !expected_data.first.has_key?(key)
           end
         }.must_equal(expected_data)
       end
@@ -141,9 +135,10 @@ HTML
 
     it 'ignores empty cells' do
       expected_data = [{'ID' => '1', 'Title' => 'Clean Code', 'Author' => nil}]
-      subject.rows.map {|r|
-        r.reject {|key, value| key == 'Row-Element'}
-      }.must_equal(expected_data)
+      actual = subject.rows
+
+      actual = actual.map {|row| row.attributes.reject {|key, _value| !expected_data.first.has_key?(key)}}
+      actual.must_equal(expected_data)
     end
   end
 
