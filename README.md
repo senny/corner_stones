@@ -49,17 +49,22 @@ flash.assert_flash_is_present(:notice, 'Article saved') # verify that a given fl
 
 ```ruby
 table = CornerStones::Table.new('.articles')
-table.rows # returns an array of rows. Each row is represented as a Hash {header} => {value}
-table.row('Title' => 'Management') # returns the row-hash for the row with 'Management' in the 'Title' column
+table.rows # returns an array of rows. Each row is represented as a row object.
+table.row('Title' => 'Management') # returns the row object for the row with 'Management' in the 'Title' column
 ```
+
+A row object has two primary methods: `#node` is a reference to the capybara node of the row and `#attributes` is a hash
+with the following structure: ({Table Header} => {Cell Value})
+
+The following extensions are available for the `Table`:
 
 ```ruby
 table = CornerStones::Table.new('.articles').tap do |t|
         t.extend(CornerStones::Table::SelectableRows)
         t.extend(CornerStones::Table::DeletableRows)
       end
-table.select_row('Created at' => '01.12.2001') # select the row, which has '01.12.2001' in the 'Created at' column
-table.delete_row('ID' => '9') # delete the row, which contains '9' in the 'ID' column
+table.row('Created at' => '01.12.2001').select # select the row, which has '01.12.2001' in the 'Created at' column
+table.row('ID' => '9').delete # delete the row, which contains '9' in the 'ID' column
 ```
 
 ### Forms
