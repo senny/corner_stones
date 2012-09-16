@@ -179,24 +179,31 @@ HTML
         subject.extend(CornerStones::Table::DeletableRows)
       end
 
-      it 'it includes the "Delete-Link" object in the data' do
-        subject.rows.each do |row|
-          unless row['Delete-Link'].nil?
-            row['Delete-Link'].must_be_kind_of(Capybara::Node::Element)
-          end
-        end
-      end
-
       it 'allows you to trigger a deletion with a row selector' do
-        subject.delete_row('Title' => 'Domain Driven Design')
+        subject.row('Title' => 'Domain Driven Design').delete
         current_path.must_equal '/delete/domain_driven_design'
       end
 
       it 'raises an error when a the target row can not be found' do
-        lambda do
-          subject.delete_row('ID' => '3')
-        end.must_raise(RuntimeError)
+        begin
+          subject.row('ID' => '3').delete
+        rescue => e
+          e.message.must_match /^The row '.*' does not have a delete-link$/
+        end
       end
+
+      it 'the deprecated method #delete_row still works' do
+        errors = StringIO.new
+        original_stderr = $stderr
+        $stderr = errors
+
+        subject.delete_row('Title' => 'Domain Driven Design')
+
+        $stderr = original_stderr
+        current_path.must_equal '/delete/domain_driven_design'
+        errors.string.must_equal "[DEPRECATION] `delete_row` is deprecated. Please use `row(row_spec).delete` instead.\n"
+      end
+
     end
 
     describe 'selectable rows' do
@@ -229,15 +236,21 @@ HTML
         subject.extend(CornerStones::Table::SelectableRows)
       end
 
-      it 'it includes the "Selected-Link" object in the data' do
-        subject.rows.map do |row|
-          row['Selected-Link']
-        end.must_equal ['/articles/clean_code', '/articles/domain_driven_design']
+      it 'allows you to select a row' do
+        subject.row('ID' => '1').select
+        current_path.must_equal '/articles/clean_code'
       end
 
-      it 'allows you to select a row' do
+      it 'the deprecated method #select_row still works' do
+        errors = StringIO.new
+        original_stderr = $stderr
+        $stderr = errors
+
         subject.select_row('ID' => '1')
+
+        $stderr = original_stderr
         current_path.must_equal '/articles/clean_code'
+        errors.string.must_equal "[DEPRECATION] `select_row` is deprecated. Please use `row(row_spec).select` instead.\n"
       end
     end
 
@@ -271,7 +284,6 @@ HTML
       it 'strips whitespace from cell content' do
         subject.rows.map { |r| r['Author']}.must_equal ["Robert C. Martin", "Eric Evans"]
       end
-
     end
   end
 end

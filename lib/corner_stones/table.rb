@@ -26,10 +26,15 @@ module CornerStones
     def rows
       within @scope do
         all('tbody tr').map do |row|
-          row = Row.new(row, attributes_for_row(row))
+          build_row(row)
         end
       end
     end
+
+    def build_row(node)
+      Row.new(node, attributes_for_row(node))
+    end
+    protected :build_row
 
     def headers
       @options[:headers] || detect_table_headers

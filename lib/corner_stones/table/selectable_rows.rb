@@ -3,11 +3,20 @@ module CornerStones
     module SelectableRows
 
       def select_row(options)
-        visit row(options)['Selected-Link']
+        warn "[DEPRECATION] `select_row` is deprecated. Please use `row(row_spec).select` instead."
+        row(options).select
       end
 
-      def attributes_for_row(row)
-        super.merge('Selected-Link' => row['data-selected-url'])
+      def build_row(node)
+        row = super
+        row.extend RowMethods
+        row
+      end
+
+      module RowMethods
+        def select
+          visit node['data-selected-url']
+        end
       end
 
     end
