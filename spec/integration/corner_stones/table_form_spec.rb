@@ -139,7 +139,7 @@ HTML
     it 'ignores empty cells' do
       expected_data = [{'Title' => 'Indiana Jones', 'Duration' => '210 minutes', 'Time' => nil}]
       subject.rows.map {|r|
-        r.reject {|key, value| ['Row-Element', 'Inputs'].include? key}
+        r.attributes.reject {|key, _value| !expected_data.first.has_key?(key)}
       }.must_equal(expected_data)
     end
   end
