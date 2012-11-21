@@ -198,6 +198,25 @@ HTML
         end
       end
 
+      describe 'searches errors only in the form' do
+        let(:html) {<<-HTML
+          <form action="/articles" method="post" class="form-with-errors article-form">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title">
+
+            <input type="submit" value="Save">
+          <form>
+          <div class="error">
+            this is another error.
+          </div>
+        HTML
+        }
+
+        it '#assert_has_no_errors passes' do
+          subject.assert_has_no_errors
+        end
+      end
+
       describe 'without errors' do
         let(:html) {<<-HTML
           <form action="/articles" method="post" class="form-without-errors article-form">
