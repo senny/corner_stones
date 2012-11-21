@@ -88,3 +88,8 @@ form.assert_has_no_errors # verify that the form was submitted correctly
 form.submit # verifies that the form has no errors
 form.submit(:assert_valid => false) # do not veirfy that no errors were present
 ```
+
+## Contributors
+
+* Michael Stämpfli (https://github.com/stmichael)
+* Björn Bur (https://github.com/bjoernbur)
