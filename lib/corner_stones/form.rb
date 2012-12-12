@@ -1,5 +1,6 @@
 require 'corner_stones/form/field_selector'
 
+require 'corner_stones/form/disabled'
 require 'corner_stones/form/with_inline_errors'
 
 module CornerStones
