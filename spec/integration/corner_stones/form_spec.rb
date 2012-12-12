@@ -2,6 +2,7 @@ require 'integration/spec_helper'
 
 require 'corner_stones/form'
 require 'corner_stones/form/with_inline_errors'
+require 'corner_stones/form/disabled'
 
 describe CornerStones::Form do
 
@@ -130,6 +131,71 @@ HTML
   end
 
   describe 'mixins' do
+    describe 'disabled' do
+      before do
+        subject.extend(CornerStones::Form::Disabled)
+      end
+
+      describe 'without all fields disabled' do
+        let(:html) {<<-HTML
+          <form action="/articles" method="post" class="form-without-errors article-form">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title">
+            <label for="title">AGB</label>
+            <input type="checkbox" name="agb" id="agb" disabled="disabled">
+            <label for="author">Author</label>
+            <select name="author" id="author">
+              <option value="1">Robert C. Martin</option>
+              <option value="2">Eric Evans</option>
+              <option value="3">Kent Beck</option>
+            </select>
+            <label for="text">Text</label>
+            <textarea name="text" id="text" disabled="disabled"></texarea>
+
+            <input type="submit" value="Save" disabled="disabled">
+            <button value="Cancel" disabled="disabled">
+          <form>
+        HTML
+        }
+
+        it 'the form is not disabled' do
+          e = lambda do
+            subject.assert_is_disabled
+          end.must_raise(CornerStones::Form::Disabled::NotAllFieldsDiabledError)
+          e.message.must_equal 'expected the form to have no enabled fields but the following were present:
+- title
+- author'
+        end
+      end
+
+      describe 'with all fields disabled' do
+        let(:html) {<<-HTML
+          <form action="/articles" method="post" class="form-without-errors article-form">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" disabled="disabled">
+            <label for="title">AGB</label>
+            <input type="checkbox" name="agb" id="agb" disabled="disabled">
+            <label for="author">Author</label>
+            <select name="author" id="author" disabled="disabled">
+              <option value="1">Robert C. Martin</option>
+              <option value="2">Eric Evans</option>
+              <option value="3">Kent Beck</option>
+            </select>
+            <label for="text">Text</label>
+            <textarea name="text" id="text" disabled="disabled"></texarea>
+
+            <input type="submit" value="Save" disabled="disabled">
+            <button value="Cancel" disabled="disabled">
+          <form>
+        HTML
+        }
+
+        it 'the form is disabled' do
+          subject.assert_is_disabled
+        end
+      end
+    end
+
     describe 'form errors' do
 
       before do

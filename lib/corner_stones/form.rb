@@ -9,6 +9,8 @@ module CornerStones
 
     include Capybara::DSL
 
+    ENABLED_FIELDS_SELECTOR = 'input:not([type="hidden"]), textarea, select, button'
+
     def initialize(scope, options = {})
       @scope = scope
       @options = options
