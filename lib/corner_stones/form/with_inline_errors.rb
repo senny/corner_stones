@@ -16,7 +16,7 @@ module CornerStones
         within @scope do
           all('.error').map do |container|
             label = container.all('label').first
-            input = container.all('input:not([type="hidden"]), textarea, select').first
+            input = container.all(CornerStones::Form::ENABLED_FIELDS_SELECTOR).first
             error = container.all('.help-inline').first
 
             { 'Field' => label && label.text.strip,
