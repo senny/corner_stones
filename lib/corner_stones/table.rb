@@ -23,6 +23,10 @@ module CornerStones
       } or raise MissingRowError, "no row with '#{options.inspect}'\n\ngot:#{rows}"
     end
 
+    def empty?
+      rows.empty?
+    end
+
     def rows
       within @scope do
         all('tbody tr').map do |row|

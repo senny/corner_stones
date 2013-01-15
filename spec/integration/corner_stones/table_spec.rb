@@ -76,6 +76,26 @@ describe CornerStones::Table do
     it 'extracts the Capybara-Element for the table row' do
       subject.row('ID' => '1').node.path.must_equal('/html/body/table/tbody/tr[1]')
     end
+
+    it 'the table should be empty' do
+      subject.empty?.must_equal(false)
+    end
+  end
+
+  describe 'tables without rows' do
+    let(:html) { <<-HTML
+      <table class="articles">
+        <tbody>
+        </tbody>
+      </table>
+    HTML
+    }
+
+    subject { CornerStones::Table.new('.articles', :headers => ['Book', 'Author'], :data_selector => 'th,td') }
+
+    it 'the table should be empty' do
+      subject.empty?.must_equal(true)
+    end
   end
 
   describe 'custom tables' do
