@@ -1,3 +1,4 @@
+require 'corner_stones/form/fields/base'
 require 'corner_stones/form/fields/text_field'
 require 'corner_stones/form/fields/select_field'
 require 'corner_stones/form/fields/file_field'

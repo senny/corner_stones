@@ -1,5 +1,3 @@
-require 'corner_stones/form/fields/base'
-
 module CornerStones
   class Form
     module Fields
