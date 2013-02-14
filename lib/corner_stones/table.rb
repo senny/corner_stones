@@ -27,6 +27,10 @@ module CornerStones
       rows.empty?
     end
 
+    def hashes
+      rows.map{|row| row.attributes}
+    end
+
     def rows
       within @scope do
         all('tbody tr').map do |row|

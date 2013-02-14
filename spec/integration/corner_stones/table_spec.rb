@@ -50,11 +50,7 @@ describe CornerStones::Table do
       expected_data = [{'ID' => '1', 'Title' => 'Clean Code', 'Author' => 'Robert C. Martin'},
                        { 'ID' => '2', 'Title' => 'Domain Driven Design', 'Author' => 'Eric Evans'}]
 
-      subject.rows.map {|r|
-        r.attributes.reject do |key, _value|
-          !expected_data.first.has_key?(key)
-        end
-      }.must_equal(expected_data)
+      subject.hashes.must_equal(expected_data)
     end
 
     it 'a row can be accessed with a single key' do
@@ -123,11 +119,7 @@ describe CornerStones::Table do
                            'Author' => 'Robert C. Martin'},
                          { 'Book' => 'Domain Driven Design',
                            'Author' => 'Eric Evans'}]
-        subject.rows.map {|r|
-          r.attributes.reject do |key, _value|
-            !expected_data.first.has_key?(key)
-          end
-        }.must_equal(expected_data)
+        subject.hashes.must_equal(expected_data)
       end
 
     end
@@ -155,10 +147,8 @@ HTML
 
     it 'ignores empty cells' do
       expected_data = [{'ID' => '1', 'Title' => 'Clean Code', 'Author' => nil}]
-      actual = subject.rows
 
-      actual = actual.map {|row| row.attributes.reject {|key, _value| !expected_data.first.has_key?(key)}}
-      actual.must_equal(expected_data)
+      subject.hashes.must_equal(expected_data)
     end
   end
 
