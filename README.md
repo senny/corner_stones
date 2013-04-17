@@ -93,3 +93,5 @@ form.submit(:assert_valid => false) # do not veirfy that no errors were present
 
 * Michael Stämpfli (https://github.com/stmichael)
 * Björn Bur (https://github.com/bjoernbur)
+
+If you want to help out, please start by reading the [contribution guidelines](CONTRIBUTING.md).
