@@ -30,9 +30,8 @@ tabs.open('Details') # open a tab
 ```
 
 ```ruby
-tabs = CornerStones::Tabs.new('.tab-navigation').tap do |t|
-  t.extend(CornerStones::Tabs::ActiveTracking)
-end
+tabs = CornerStones::Tabs.new('.tab-navigation')
+tabs.extend(CornerStones::Tabs::ActiveTracking)
 
 tabs.open('About') # open a tab and verify that the opened tab is active
 tabs.assert_current_tab_is('Main') # verify that the tab 'Main' is active
@@ -59,10 +58,10 @@ with the following structure: ({Table Header} => {Cell Value})
 The following extensions are available for the `Table`:
 
 ```ruby
-table = CornerStones::Table.new('.articles').tap do |t|
-        t.extend(CornerStones::Table::SelectableRows)
-        t.extend(CornerStones::Table::DeletableRows)
-      end
+table = CornerStones::Table.new('.articles')
+table.extend(CornerStones::Table::SelectableRows)
+table.extend(CornerStones::Table::DeletableRows)
+
 table.row('Created at' => '01.12.2001').select # select the row, which has '01.12.2001' in the 'Created at' column
 table.row('ID' => '9').delete # delete the row, which contains '9' in the 'ID' column
 ```
@@ -70,7 +69,7 @@ table.row('ID' => '9').delete # delete the row, which contains '9' in the 'ID' c
 ### Forms
 
 ```ruby
-form = CornerStones::Form.new('.new-article', :select_fields => ['Author'])
+form = CornerStones::Form.new('.new-article')
 form.fill_in_with('Title' => 'Some Article', 'Author' => 'C. J.') # fill out the form
 form.submit # submit the form using the 'Save' button
 form.submit(:button => 'Save Article') # submit the form using the 'Save Article' button
@@ -80,9 +79,9 @@ form.process(:fill_in => {'Title' => 'Some Article', 'Author' => 'C. J.'},
 ```
 
 ```ruby
-form = CornerStones::Form.new('.update-article').tap do |f|
-  f.extend(CornerStones::Form::WithInlineErrors)
-end
+form = CornerStones::Form.new('.update-article')
+form.extend(CornerStones::Form::WithInlineErrors)
+
 form.errors # returns an Array of form errors
 form.assert_has_no_errors # verify that the form was submitted correctly
 form.submit # verifies that the form has no errors
