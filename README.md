@@ -94,3 +94,5 @@ form.submit(:assert_valid => false) # do not veirfy that no errors were present
 * Björn Bur (https://github.com/bjoernbur)
 
 If you want to help out, please start by reading the [contribution guidelines](CONTRIBUTING.md).
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/101b5a36327228500581193f9d91dfe3 "githalytics.com")](http://githalytics.com/senny/corner_stones)
