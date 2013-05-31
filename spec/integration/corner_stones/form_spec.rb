@@ -145,10 +145,17 @@ HTML
     }
 
     it 'sets the option containing the most matching text' do
-    subject.process(:fill_in => {'Page size' => 'A4'},
-                    :button => 'Save')
+      subject.process(:fill_in => {'Page size' => 'A4'},
+                      :button => 'Save')
 
-    page.driver.request.params['page_size'].must_equal('2')
+      page.driver.request.params['page_size'].must_equal('2')
+    end
+
+    it "works with options which don't match exactly" do
+      subject.process(:fill_in => {'Page size' => '1/2'},
+                      :button => 'Save')
+
+      page.driver.request.params['page_size'].must_equal('1')
     end
   end
 
