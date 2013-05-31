@@ -130,6 +130,28 @@ HTML
     end
   end
 
+  describe 'with select-fields with options containing the same text' do
+    let(:html) {<<-HTML
+      <form action="/articles" method="post" class="form-with-errors article-form">
+        <label for="page_size">Page size</label>
+        <select name="page_size" id="page_size">
+          <option value="1">1/2 A4</option>
+          <option value="2">A4</option>
+          <option value="3">A3</option>
+        </select>
+        <input type="submit" name="button" value="Save">
+      </form>
+HTML
+    }
+
+    it 'sets the option containing the most matching text' do
+    subject.process(:fill_in => {'Page size' => 'A4'},
+                    :button => 'Save')
+
+    page.driver.request.params['page_size'].must_equal('2')
+    end
+  end
+
   describe 'mixins' do
     describe 'disabled' do
       before do

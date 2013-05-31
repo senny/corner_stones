@@ -17,7 +17,9 @@ module CornerStones
         end
 
         def set(value)
-          @field.find("option:contains('#{value}')").select_option
+          selected_option = @field.find("option[text()='#{value}']")
+          selected_option ||= @field.find("option:contains('#{value}')")
+          selected_option.select_option
         end
 
         def get
