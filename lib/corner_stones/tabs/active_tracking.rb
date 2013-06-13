@@ -11,11 +11,9 @@ module CornerStones
 
       def assert_current_tab_is(tab)
         current_tab = nil
-        wait_until do
-          current_tab = find(@element_scope).find('.active').text
-          current_tab == tab
-        end
-      rescue Capybara::TimeoutError
+        current_tab = find(@element_scope).find('.active').text
+        current_tab == tab || raise
+      rescue
         raise ActiveTabMismatchError, "the active tab is '#{current_tab}' instead of '#{tab}'"
       end
 
