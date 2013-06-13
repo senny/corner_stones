@@ -1,7 +1,7 @@
 require "bundler/setup"
 
-require 'minitest/spec'
 require 'minitest/autorun'
+require 'minitest/spec'
 
 require 'capybara'
 require 'capybara/dsl'

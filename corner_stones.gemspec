@@ -21,5 +21,5 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   s.add_development_dependency "rake"
   s.add_development_dependency "minitest", '~> 3.3.0'
-  s.add_runtime_dependency "capybara", '~> 1.1.3'
+  s.add_runtime_dependency "capybara"
 end
