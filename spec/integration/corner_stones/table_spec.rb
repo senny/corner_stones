@@ -45,6 +45,14 @@ describe CornerStones::Table do
     end
   end
 
+  describe "column values" do
+    it "returns an Array of values for a given column" do
+      assert_equal ["1", "2"],  subject.values("ID")
+      assert_equal(["Clean Code", "Domain Driven Design"],
+                   subject.values("Title"))
+    end
+  end
+
   describe "data" do
     it 'is read into an array of hashes ({header} => {data})' do
       expected_data = [{'ID' => '1', 'Title' => 'Clean Code', 'Author' => 'Robert C. Martin'},

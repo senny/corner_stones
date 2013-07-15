@@ -64,6 +64,7 @@ table.extend(CornerStones::Table::DeletableRows)
 
 table.row('Created at' => '01.12.2001').select # select the row, which has '01.12.2001' in the 'Created at' column
 table.row('ID' => '9').delete # delete the row, which contains '9' in the 'ID' column
+table.values("ID") # => ["1", "7", "9"]
 ```
 
 ### Forms

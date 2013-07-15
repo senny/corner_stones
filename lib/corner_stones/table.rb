@@ -31,6 +31,11 @@ module CornerStones
       rows.map{|row| row.attributes}
     end
 
+    # returns an <tt>Array</tt> of values for the given column.
+    def values(column_header)
+      rows.map { |row| row[column_header] }
+    end
+
     def rows
       within @scope do
         all('tbody tr').map do |row|
