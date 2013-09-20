@@ -15,8 +15,9 @@ module CornerStones
         end
 
         def set(value)
-          selected_option = @field.first("option[text()='#{value}']")
-          selected_option ||= @field.find("option:contains('#{value}')")
+          options = @field.all("option")
+          selected_option = options.detect {|o| o.text == value}
+          selected_option ||= options.detect {|o| o.text.include? value}
           selected_option.select_option
         end
 
