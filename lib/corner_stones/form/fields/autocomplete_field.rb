@@ -23,6 +23,14 @@ module CornerStones
           end
           page.execute_script %Q{ $('.ui-menu-item a:contains("#{value}")').trigger("mouseenter").trigger("click"); }
         end
+
+        def wait_until
+          require "timeout"
+          Timeout.timeout(Capybara.default_wait_time) do
+            sleep(0.1) until value = yield
+            value
+          end
+        end
       end
     end
   end
