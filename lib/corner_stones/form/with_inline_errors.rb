@@ -1,7 +1,6 @@
 module CornerStones
   class Form
     module WithInlineErrors
-
       class FormHasErrorsError < StandardError; end
 
       def submit(options = {})
@@ -14,10 +13,10 @@ module CornerStones
         return [] unless first(@scope)
 
         within @scope do
-          all('.error').map do |container|
+          all(error_container_selector).map do |container|
             label = container.all('label').first
             input = container.all(CornerStones::Form::ENABLED_FIELDS_SELECTOR).first
-            error = container.all('.help-inline').first
+            error = container.all(error_hint_selector).first
 
             { 'Field' => label && label.text.strip,
               'Value' => input && FieldSelector.find_by_element(input).get,
@@ -37,6 +36,13 @@ module CornerStones
         end
       end
 
+      def error_container_selector
+        ".error"
+      end
+
+      def error_hint_selector
+        ".help-inline"
+      end
     end
   end
 end
