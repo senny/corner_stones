@@ -53,7 +53,7 @@ module CornerStones
       if element
         field = Form::FieldSelector.find_by_element(element)
         row_data['Inputs'][header] = field
-        row_data[header] = field.get
+        row_data[header] = field.get.to_s
       else
         row_data[header] = value_for_cell(cell)
       end
