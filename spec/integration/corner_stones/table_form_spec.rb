@@ -96,7 +96,7 @@ HTML
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Action')['Duration'].must_equal '120 min'
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Action')['Extras'].must_equal 'No extras'
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Actors'].must_equal 'David Hasselhoff'
-    subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Duration'].must_equal nil
+    subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Duration'].must_equal ""
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Extras'].must_equal 'No extras'
     subject.row('Title' => 'As it is in heaven', 'Genre' => 'Comedy')['Actors'].must_equal 'Michael Moore'
     subject.row('Title' => 'As it is in heaven', 'Genre' => 'Comedy')['Duration'].must_equal '108 min'
@@ -107,7 +107,7 @@ HTML
     subject.fill_in_row({'Title' => 'Pirates of the Carribean'}, :with => {'Duration' => 'too long'})
 
     subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Action')['Duration'].must_equal 'too long'
-    subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Duration'].must_equal nil
+    subject.row('Title' => 'Pirates of the Carribean', 'Genre' => 'Tragedy')['Duration'].must_equal ""
   end
 
   it 'you can not fill in columns without input fields' do
