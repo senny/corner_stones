@@ -37,10 +37,14 @@ module CornerStones
     end
 
     def rows
+      raw_rows.map do |row|
+        build_row(row)
+      end
+    end
+
+    def raw_rows
       within @scope do
-        all('tbody tr').map do |row|
-          build_row(row)
-        end
+        all('tbody tr')
       end
     end
 
@@ -54,7 +58,9 @@ module CornerStones
     end
 
     def detect_table_headers
-      all('thead th').map(&:text)
+      within @scope do
+        all('thead th').map(&:text)
+      end
     end
 
     def attributes_for_row(row)

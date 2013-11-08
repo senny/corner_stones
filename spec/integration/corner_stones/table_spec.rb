@@ -8,6 +8,12 @@ describe CornerStones::Table do
 
   stub_capybara_response
   let(:html) { <<-HTML
+    <table class="off-scope">
+      <thead>
+        <tr><th>OUTSIDE</th></tr>
+      </thead>
+    </table>
+
     <table class="articles">
       <thead>
         <tr>
@@ -16,19 +22,19 @@ describe CornerStones::Table do
           <th>Author</th>
         </tr>
       </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Clean Code</td>
-            <td>Robert C. Martin</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Domain Driven Design</td>
-            <td>Eric Evans</td>
-          </tr>
-        </tbody>
-        </table
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Clean Code</td>
+          <td>Robert C. Martin</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Domain Driven Design</td>
+          <td>Eric Evans</td>
+        </tr>
+      </tbody>
+    </table>
   HTML
   }
 
@@ -78,7 +84,7 @@ describe CornerStones::Table do
     end
 
     it 'extracts the Capybara-Element for the table row' do
-      subject.row('ID' => '1').node.path.must_equal('/html/body/table/tbody/tr[1]')
+      subject.row('ID' => '1').node.path.must_equal('/html/body/table[2]/tbody/tr[1]')
     end
 
     it 'the table should be empty' do
