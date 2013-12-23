@@ -41,8 +41,12 @@ module CornerStones
     def attributes
       within @scope do
         all('label[for]').inject({}) do |result, label|
-          field = FieldSelector.find(label[:for], :autocomplete_fields => autocomplete_fields)
-          result[label.text] = field.get
+          begin
+            field = FieldSelector.find(label[:for], :autocomplete_fields => autocomplete_fields)
+            result[label.text] = field.get
+          rescue UnknownFieldError
+            result[label.text] = ""
+          end
           result
         end
       end

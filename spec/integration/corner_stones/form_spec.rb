@@ -332,6 +332,19 @@ HTML
         end
       end
 
+      describe 'with invalid label' do
+        let(:html) {<<-HTML
+          <form action="/articles" method="post" class="form-without-errors article-form">
+            <label for="title">Title</label>
+            <input type="submit" value="Save">
+          <form>
+        HTML
+        }
+
+        it "#attributes lists the field with a blank value" do
+          subject.attributes.must_equal({"Title"=>""})
+        end
+      end
     end
   end
 end
