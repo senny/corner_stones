@@ -15,15 +15,18 @@ module CornerStones
 
       module RowMethods
         def delete
-          delete_link = node.first('td .delete-action')
-          if delete_link
-            delete_link.click
+          link ||= delete_link
+          if link
+            link.click
           else
             raise "The row '#{attributes}' does not have a delete-link"
           end
         end
-      end
 
+        def delete_link
+          node.first('td .delete-action')
+        end
+      end
     end
   end
 end
