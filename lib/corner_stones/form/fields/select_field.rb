@@ -14,15 +14,24 @@ module CornerStones
           first(:xpath, XPath::HTML.select(name))
         end
 
-        def set(value)
-          options = @field.all("option")
-          selected_option = options.detect {|o| o.text == value}
-          selected_option ||= options.detect {|o| o.text.include? value}
-          selected_option.select_option
+        def set(values)
+          Array(values).each do |value|
+            options = @field.all("option")
+            selected_option = options.detect {|o| o.text == value}
+            selected_option ||= options.detect {|o| o.text.include? value}
+            selected_option.select_option
+          end
         end
 
         def get
-          @field.find("option[value='#{@field.value}']").text
+          case @field.value
+          when Array
+            @field.value.map do |value|
+              @field.find("option[value='#{value}']").text
+            end
+          else
+            @field.find("option[value='#{@field.value}']").text
+          end
         end
       end
     end

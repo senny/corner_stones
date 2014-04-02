@@ -36,9 +36,15 @@ describe CornerStones::Form do
       <label for="check2">Checkbox2</label>
       <input name="check2" id="check2" type="checkbox" value="1">
 
+      <label for="book_tags">Tags</label>
+      <select name="tags" id="book_tags" multiple="multiple">
+        <option value="ruby">Ruby</option>
+        <option value="rails">Rails</option>
+        <option value="oop">OOP</option>
+      </select>
+
       <input type="submit" name="button" value="Save">
       <input type="submit" name="button" value="Save Article">
-
     </form>
   HTML
   }
@@ -105,7 +111,8 @@ describe CornerStones::Form do
                          'Body' => '...',
                          'File' => 'spec/files/hadoken.png',
                          'Checkbox' => true,
-                         'Checkbox2' => false)
+                         'Checkbox2' => false,
+                         'Tags' => ['Ruby', 'OOP'])
 
     subject.attributes.must_equal('Title' => 'Domain Driven Design',
                                   'Password' => 'secret',
@@ -113,7 +120,8 @@ describe CornerStones::Form do
                                   'Body' => '...',
                                   'File' => 'spec/files/hadoken.png',
                                   'Checkbox' => '1',
-                                  'Checkbox2' => nil)
+                                  'Checkbox2' => nil,
+                                  'Tags' => ['Ruby', 'OOP'])
   end
 
   describe 'form with an unknown field type' do
