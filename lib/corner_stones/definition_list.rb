@@ -8,6 +8,10 @@ module CornerStones
       find(@selector)
     end
 
+    def [](term)
+      data[term]
+    end
+
     def data
       data_nodes.map {|term, definition|
         [term.text, definition.text]

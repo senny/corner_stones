@@ -27,4 +27,9 @@ describe CornerStones::DefinitionList do
                               "Malesuada porta" => "Etiam porta sem malesuada magna mollis euismod."
                             })
   end
+
+  it "allows hash access to individual entries" do
+    subject["Euismod"].must_equal("Donec id elit non mi porta gravida at eget metus.")
+    subject["Malesuada porta"].must_equal("Etiam porta sem malesuada magna mollis euismod.")
+  end
 end
