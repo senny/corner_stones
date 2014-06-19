@@ -8,7 +8,7 @@ describe CornerStones::Form do
 
   stub_capybara_response
 
-  let(:html) {<<-HTML
+  let(:html_fixture) {<<-HTML
     <form action="/articles" method="post" class="article-form">
       <label for="title">Title</label>
       <input type="text" name="title" id="title">
@@ -125,7 +125,7 @@ describe CornerStones::Form do
   end
 
   describe 'form with an unknown field type' do
-    let(:html) {<<-HTML
+    let(:html_fixture) {<<-HTML
       <form action="/articles" method="post" class="form-with-errors article-form">
         <label for="unknown">Unknown</label>
         <a id="unknown">Link</a>
@@ -139,7 +139,7 @@ HTML
   end
 
   describe 'with select-fields with options containing the same text' do
-    let(:html) {<<-HTML
+    let(:html_fixture) {<<-HTML
       <form action="/articles" method="post" class="form-with-errors article-form">
         <label for="page_size">Page size</label>
         <select name="page_size" id="page_size">
@@ -174,7 +174,7 @@ HTML
       end
 
       describe 'without all fields disabled' do
-        let(:html) {<<-HTML
+        let(:html_fixture) {<<-HTML
           <form action="/articles" method="post" class="form-without-errors article-form">
             <label for="title">Title</label>
             <input type="text" name="title" id="title">
@@ -206,7 +206,7 @@ HTML
       end
 
       describe 'with all fields disabled' do
-        let(:html) {<<-HTML
+        let(:html_fixture) {<<-HTML
           <form action="/articles" method="post" class="form-without-errors article-form">
             <label for="title">Title</label>
             <input type="text" name="title" id="title" disabled="disabled">
@@ -240,7 +240,7 @@ HTML
       end
 
       describe 'with errors' do
-        let(:html) {<<-HTML
+        let(:html_fixture) {<<-HTML
           <form action="/articles" method="post" class="form-with-errors article-form">
             <div>
               <label for="title">Title</label>
@@ -302,7 +302,7 @@ HTML
       end
 
       describe 'searches errors only in the form' do
-        let(:html) {<<-HTML
+        let(:html_fixture) {<<-HTML
           <form action="/articles" method="post" class="form-with-errors article-form">
             <label for="title">Title</label>
             <input type="text" name="title" id="title">
@@ -321,7 +321,7 @@ HTML
       end
 
       describe 'without errors' do
-        let(:html) {<<-HTML
+        let(:html_fixture) {<<-HTML
           <form action="/articles" method="post" class="form-without-errors article-form">
             <label for="title">Title</label>
             <input type="text" name="title" id="title">
@@ -341,7 +341,7 @@ HTML
       end
 
       describe 'with invalid label' do
-        let(:html) {<<-HTML
+        let(:html_fixture) {<<-HTML
           <form action="/articles" method="post" class="form-without-errors article-form">
             <label for="title">Title</label>
             <input type="submit" value="Save">

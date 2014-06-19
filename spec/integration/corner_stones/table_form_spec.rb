@@ -5,7 +5,7 @@ require 'corner_stones/table_form'
 describe CornerStones::TableForm do
 
   stub_capybara_response
-  let(:html) {<<-HTML
+  let(:html_fixture) {<<-HTML
 <form action="/movies" method="post" class="movie-form">
   <table class="movies">
     <thead>
@@ -117,7 +117,7 @@ HTML
   end
 
   describe 'colspans' do
-    let(:html) {<<-HTML
+    let(:html_fixture) {<<-HTML
       <table class="movie-form">
         <thead>
           <tr>

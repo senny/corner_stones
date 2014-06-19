@@ -6,7 +6,7 @@ describe CornerStones::DefinitionList do
 
   stub_capybara_response
 
-  let(:html) { <<-HTML
+  let(:html_fixture) { <<-HTML
     <dl class="dl-horizontal">
       <dt>Description lists</dt>
       <dd>A description list is perfect for defining terms.</dd>

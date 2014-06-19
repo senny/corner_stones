@@ -7,7 +7,7 @@ require 'corner_stones/table/selectable_rows'
 describe CornerStones::Table do
 
   stub_capybara_response
-  let(:html) { <<-HTML
+  let(:html_fixture) { <<-HTML
     <table class="off-scope">
       <thead>
         <tr><th>OUTSIDE</th></tr>
@@ -93,7 +93,7 @@ describe CornerStones::Table do
   end
 
   describe 'tables without rows' do
-    let(:html) { <<-HTML
+    let(:html_fixture) { <<-HTML
       <table class="articles">
         <tbody>
         </tbody>
@@ -110,7 +110,7 @@ describe CornerStones::Table do
 
   describe 'custom tables' do
     describe 'inline headers' do
-      let(:html) { <<-HTML
+      let(:html_fixture) { <<-HTML
         <table class="articles">
           <tbody>
             <tr>
@@ -140,7 +140,7 @@ describe CornerStones::Table do
   end
 
   describe 'colspans' do
-    let(:html) { <<-HTML
+    let(:html_fixture) { <<-HTML
       <table class="articles">
         <thead>
           <tr>
@@ -168,7 +168,7 @@ HTML
 
   describe 'mixins' do
     describe 'deletable rows' do
-      let(:html) {<<-HTML
+      let(:html_fixture) {<<-HTML
         <table class="articles">
           <thead>
             <tr>
@@ -231,7 +231,7 @@ HTML
     end
 
     describe 'selectable rows' do
-      let(:html) { <<-HTML
+      let(:html_fixture) { <<-HTML
         <table class="articles">
           <thead>
             <tr>
@@ -279,7 +279,7 @@ HTML
     end
 
     describe 'whitespace filter' do
-      let(:html) { <<-HTML
+      let(:html_fixture) { <<-HTML
         <table class="articles">
           <thead>
             <tr>

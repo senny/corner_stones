@@ -6,7 +6,7 @@ describe CornerStones::FlashMessages do
 
   stub_capybara_response
 
-  let(:html) { <<-HTML
+  let(:html_fixture) { <<-HTML
     <div class="alert">
       <p>Article was not saved. Please correct the errors.</p>
     </div>
@@ -61,7 +61,7 @@ MESSAGE
   end
 
   describe 'custom message types' do
-    let(:html) { <<-HTML
+    let(:html_fixture) { <<-HTML
       <div class="alert-error">
         <p>Article was not saved. Please correct the errors.</p>
       </div>
@@ -83,4 +83,3 @@ MESSAGE
 
   end
 end
-

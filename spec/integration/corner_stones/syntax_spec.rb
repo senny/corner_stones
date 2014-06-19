@@ -8,7 +8,7 @@ describe CornerStones::Syntax do
   stub_capybara_response
 
   describe "#table" do
-    let(:html) { <<-HTML
+    let(:html_fixture) { <<-HTML
 <table class="articles"></table>
     HTML
     }
