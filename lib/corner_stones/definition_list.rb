@@ -1,5 +1,7 @@
 module CornerStones
   class DefinitionList
+    include Capybara::DSL
+
     def initialize(selector)
       @selector = selector
     end
@@ -13,9 +15,9 @@ module CornerStones
     end
 
     def data
-      data_nodes.map {|term, definition|
+      Hash[data_nodes.map {|term, definition|
         [term.text, definition.text]
-      }.to_h
+      }]
     end
 
     private

@@ -82,6 +82,8 @@ module CornerStones
     end
 
     Row = Struct.new(:node, :attributes) do
+      include Capybara::DSL
+
       def [](key)
         attributes[key]
       end

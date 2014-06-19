@@ -3,7 +3,6 @@ require 'integration/spec_helper'
 require 'corner_stones/definition_list'
 
 describe CornerStones::DefinitionList do
-
   stub_capybara_response
 
   let(:html_fixture) { <<-HTML

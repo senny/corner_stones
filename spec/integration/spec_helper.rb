@@ -10,5 +10,7 @@ Capybara.default_wait_time = 0
 
 require 'integration/support/response_macros'
 
-include ResponseMacros
-include Capybara::DSL
+class Minitest::Test
+  extend ResponseMacros
+  include Capybara::DSL
+end
