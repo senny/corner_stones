@@ -19,7 +19,14 @@ module CornerStones
             options = @field.all("option")
             selected_option = options.detect {|o| o.text == value}
             selected_option ||= options.detect {|o| o.text.include? value}
-            selected_option.select_option
+            if selected_option
+              selected_option.select_option
+            else
+              raise OptionNotFound, <<-MESSAGE.strip
+The select #{@field['name'].inspect} does not contain an option #{value.inspect}.
+Available options: #{options.map(&:text).inspect}
+              MESSAGE
+            end
           end
         end
 
