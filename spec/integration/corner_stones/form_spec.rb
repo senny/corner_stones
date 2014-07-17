@@ -124,6 +124,16 @@ describe CornerStones::Form do
                                   'Tags' => ['Ruby', 'OOP'])
   end
 
+  it 'raises an error when filling a select with text for which there is no option' do
+    e = assert_raises(CornerStones::Form::OptionNotFound) {
+      subject.fill_in_with('Author' => 'Zaphod Beeblebrox')
+    }
+    assert_equal <<-MESSAGE.strip, e.message
+The select "author" does not contain an option "Zaphod Beeblebrox".
+Available options: ["Robert C. Martin", "Eric Evans", "Kent Beck"]
+    MESSAGE
+  end
+
   describe 'form with an unknown field type' do
     let(:html_fixture) {<<-HTML
       <form action="/articles" method="post" class="form-with-errors article-form">

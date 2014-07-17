@@ -7,6 +7,7 @@ module CornerStones
   class Form
 
     class UnknownFieldError < RuntimeError; end
+    class OptionNotFound < ArgumentError; end
 
     include Capybara::DSL
 
