@@ -18,4 +18,16 @@ describe CornerStones::Syntax do
       my_table.must_be_kind_of(CornerStones::Table)
     end
   end
+
+  describe "#form" do
+    let(:html_fixture) { <<-HTML
+<from action="/" class="user-form"></form>
+    HTML
+    }
+
+    it "builds a CornerStones::Form" do
+      my_form = form(".user-form")
+      my_form.must_be_kind_of(CornerStones::Form)
+    end
+  end
 end

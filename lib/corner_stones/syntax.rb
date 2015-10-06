@@ -14,5 +14,10 @@ module CornerStones
     def table(selector)
       CornerStones::Table.new(selector)
     end
+
+    # Create a <tt>CornerStones::Form</tt> instance.
+    def form(selector)
+      CornerStones::Form.new(selector)
+    end
   end
 end
