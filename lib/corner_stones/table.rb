@@ -44,7 +44,7 @@ module CornerStones
 
     def raw_rows
       within @scope do
-        all('tbody tr')
+        all('tbody > tr')
       end
     end
 

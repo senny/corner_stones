@@ -278,6 +278,35 @@ HTML
       end
     end
 
+    describe "Embedded tables" do
+      let(:html_fixture) { <<-HTML
+        <table class="articles">
+          <thead>
+            <tr>
+              <th>Author</th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <table>
+                    <tr>
+                      <td>Eric</td>
+                      <td>Evans</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    HTML
+      }
+
+      it 'handles embed tables as text, if they dont come with their own tbody' do
+        subject.hashes.must_equal [{"Author"=>"Eric Evans"}]
+      end
+    end
+
     describe 'whitespace filter' do
       let(:html_fixture) { <<-HTML
         <table class="articles">
