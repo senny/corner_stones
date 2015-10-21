@@ -17,6 +17,14 @@ or in your **Gemfile**
 gem 'corner_stones'
 ```
 
+## Requiring
+
+Require it in your test_helper.rb
+
+```ruby
+require 'corner_stones/all'
+```
+
 ## Examples
 
 a lot of examples can be found in the [integration specs](https://github.com/senny/corner_stones/tree/master/spec/integration).
@@ -83,6 +91,7 @@ form.process(fill_in: { 'Title' => 'Some Article', 'Author' => 'C. J.'},
 form = CornerStones::Form.new('.update-article')
 form.extend(CornerStones::Form::WithInlineErrors)
 
+form.attributes # hash of the whole form (key = Label/Fieldname, value = value (seen by the user) eg. {'Title' => 'Some Article', 'Author' => 'C. J.'}
 form.errors # returns an Array of form errors
 form.assert_has_no_errors # verify that the form was submitted correctly
 form.submit # verifies that the form has no errors
