@@ -64,7 +64,7 @@ table.extend(CornerStones::Table::DeletableRows)
 
 table.row('Created at' => '01.12.2001').select # select the row, which has '01.12.2001' in the 'Created at' column
 table.row('ID' => '9').delete # delete the row, which contains '9' in the 'ID' column
-table.values("ID") # => ["1", "7", "9"]
+table.values('ID') # => ["1", "7", "9"]
 ```
 
 ### Forms
@@ -73,10 +73,10 @@ table.values("ID") # => ["1", "7", "9"]
 form = CornerStones::Form.new('.new-article')
 form.fill_in_with('Title' => 'Some Article', 'Author' => 'C. J.') # fill out the form
 form.submit # submit the form using the 'Save' button
-form.submit(:button => 'Save Article') # submit the form using the 'Save Article' button
+form.submit(button: 'Save Article') # submit the form using the 'Save Article' button
 
-form.process(:fill_in => {'Title' => 'Some Article', 'Author' => 'C. J.'},
-             :button => 'Save Article') # fill out + submit
+form.process(fill_in: { 'Title' => 'Some Article', 'Author' => 'C. J.'},
+             button: 'Save Article') # fill out + submit
 ```
 
 ```ruby
@@ -86,7 +86,7 @@ form.extend(CornerStones::Form::WithInlineErrors)
 form.errors # returns an Array of form errors
 form.assert_has_no_errors # verify that the form was submitted correctly
 form.submit # verifies that the form has no errors
-form.submit(:assert_valid => false) # do not veirfy that no errors were present
+form.submit(assert_valid: false) # do not veirfy that no errors were present
 ```
 
 ## Contributors
