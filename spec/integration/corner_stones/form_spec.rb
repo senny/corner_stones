@@ -67,6 +67,22 @@ describe CornerStones::Form do
     find('#check')[:checked].must_equal true
   end
 
+  describe 'form which has a submit button with an random title' do
+    let(:html_fixture) {<<-HTML
+      <form action="/articles" method="post" class="form-with-errors article-form">
+        <input type="submit" name="button" value="This is a random title">
+      </form>
+HTML
+    }
+
+    it 'will submit the form without looking for a button with the title "Save"' do
+      subject.submit
+
+      current_path.must_equal '/articles'
+      page.driver.request.post?.must_equal true
+    end
+  end
+
   it 'allows you to submit the form' do
     subject.submit
 

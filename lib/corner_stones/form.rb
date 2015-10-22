@@ -24,9 +24,12 @@ module CornerStones
     end
 
     def submit(submit_options = {})
-      submit_text = submit_options.fetch(:button) { 'Save' }
       within @scope do
-        click_button(submit_text)
+        if submit_options.has_key?(:button)
+          click_on submit_options[:button]
+        else
+          find('input[type=submit]:first-of-type').click
+        end
       end
     end
 
