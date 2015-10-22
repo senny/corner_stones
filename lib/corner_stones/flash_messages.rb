@@ -15,7 +15,7 @@ module CornerStones
 
     def messages
       message_types.inject(Hash.new {|hash, key| hash[key] = []}) do |present_messages, type|
-        all(".#{type} p").map do |message|
+        all(".#{type}").map do |message|
           present_messages[type] << {:text => message.text}
         end
         present_messages
