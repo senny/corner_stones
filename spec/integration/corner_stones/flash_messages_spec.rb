@@ -82,4 +82,20 @@ MESSAGE
     end
 
   end
+
+  describe 'bootstrap 3 messages' do
+    let(:html_fixture) { <<-HTML
+      <div class="alert alert-info text-center">Article was updated</div>
+      <div class="alert alert-danger text-center">Article fucked up</div>
+    HTML
+    }
+
+    subject { CornerStones::FlashMessages.new(message_types: [:'alert-info', :'alert-danger', :'alert-warning'])}
+
+    it 'will find all alert messages also if they are not in a <p>' do
+      subject.messages.must_equal(:'alert-info' => [{:text => 'Article was updated'}],
+                                  :'alert-danger' => [{:text => 'Article fucked up'}])
+    end
+
+  end
 end
