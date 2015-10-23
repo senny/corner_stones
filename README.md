@@ -47,9 +47,41 @@ tabs.assert_current_tab_is('Main') # verify that the tab 'Main' is active
 
 ### Flash Messages
 
+If you want use default messages (bootstrap 3, classes with .alert-success, .alert-info, .alert-warning, .alert-danger will be interpreted as a flash message).
 ```ruby
-flash = CornerStones::FlashMessages.new
-flash.assert_flash_is_present(:notice, 'Article saved') # verify that a given flash message is present
+flashes = CornerStones::FlashMessages.bootstrap3
+```
+If you use the bootstrap3 initializer the default ignore_selectors will be: [data-dismiss=alert],
+You can add some more using the ```ignore_selectors``` option
+```ruby
+flashes = CornerStones::FlashMessages.new(ignore_selectors: '.my-button-which-closes-the-alert')
+```
+
+If you use the default constructor it the message_types will be: .alert, .notice, .error
+```ruby
+flashes = CornerStones::FlashMessages.new
+```
+
+If you want some custom selectors for the alerts you can call it like this
+```ruby
+flashes = CornerStones::FlashMessages.new(message_types: [:'.my-alert-class-good', :'.my-alert-class-attention'])
+```
+
+Ignore selectors are there for you to make your life easier if you want it to .
+You can define what should be ignored inside the alert to make sure you only get the message of the alert and not a close button or an icon if you have some other things inside your alert.
+Use css selectors to do so:
+```ruby
+flashes = CornerStones::FlashMessages.new(ignore_selectors: '.close-button')
+```
+
+To get all messages you can simply call (more likely to debug than testing, for testing use ```assert_flash_is_present```)
+```ruby
+flashes.messages # => {'alert-info': 'This is an Information'}
+```
+
+To directly assert if a message is present you can call
+```ruby
+flashes.assert_flash_is_present(:'alert-info', 'This is an Information')
 ```
 
 ### Tables

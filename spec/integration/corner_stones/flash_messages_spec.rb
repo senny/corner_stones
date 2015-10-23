@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'integration/spec_helper'
 
 require 'corner_stones/flash_messages'
@@ -86,7 +87,7 @@ MESSAGE
   describe 'bootstrap 3 messages' do
     let(:html_fixture) { <<-HTML
       <div class="alert alert-info text-center">Article was updated</div>
-      <div class="alert alert-danger text-center">Article fucked up</div>
+      <div class="alert alert-danger text-center">Article failed to update</div>
     HTML
     }
 
@@ -94,7 +95,30 @@ MESSAGE
 
     it 'will find all alert messages also if they are not in a <p>' do
       subject.messages.must_equal(:'alert-info' => [{:text => 'Article was updated'}],
-                                  :'alert-danger' => [{:text => 'Article fucked up'}])
+                                  :'alert-danger' => [{:text => 'Article failed to update'}])
+    end
+
+    subject { CornerStones::FlashMessages.bootstrap3 }
+
+    it 'will fin all bootstrap messages with the bootstrap3 initializer' do
+      subject.messages.must_equal({ :"alert-info"=>[{:text=>"Article was updated"}],
+                                      :"alert-danger"=>[{:text=>"Article failed to update"}]})
+    end
+  end
+
+  describe 'bootstrap 3 messages with dismissible button' do
+    let(:html_fixture) { <<-HTML
+      <div class="alert alert-info text-center"><button type="button" class="close" data-dismiss="alert">×</button>Article was updated</div>
+      <div class="alert alert-danger text-center"><button type="button" class="close" data-dismiss="alert">×</button>Article failed to update</div>
+    HTML
+    }
+
+    subject { CornerStones::FlashMessages.new(message_types: [:'alert-info', :'alert-danger', :'alert-warning'],
+                                              ignore_selectors: '[data-dismiss=alert]')}
+
+    it 'will find all alert messages and ignore the close button text' do
+      subject.messages.must_equal(:'alert-info' => [{:text => 'Article was updated'}],
+                                  :'alert-danger' => [{:text => 'Article failed to update'}])
     end
 
   end
