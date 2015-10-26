@@ -9,6 +9,12 @@ module CornerStones
       @options = options
     end
 
+    def self.bootstrap3(options = {})
+      ignore_selectors = ['[data-dismiss=alert]']
+      ignore_selectors << Array(options[:ignore_selectors]) if options.has_key?(:ignore_selectors)
+      new({message_types: [:'alert-info', :'alert-success', :'alert-warning', :'alert-danger'], ignore_selectors: ignore_selectors })
+    end
+
     def message(type, text)
       messages[type].detect {|message| message[:text] == text}
     end
@@ -16,7 +22,11 @@ module CornerStones
     def messages
       message_types.inject(Hash.new {|hash, key| hash[key] = []}) do |present_messages, type|
         all(".#{type}").map do |message|
-          present_messages[type] << {:text => message.text}
+          native = message.native.dup
+          Array(@options[:ignore_selectors]).each do |ignore_selector|
+            native.css(ignore_selector).remove
+          end
+          present_messages[type] << {text: native.text.strip}
         end
         present_messages
       end
